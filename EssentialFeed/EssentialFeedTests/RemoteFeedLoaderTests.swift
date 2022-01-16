@@ -43,7 +43,7 @@ class RemoteFeedLoaderTests: XCTestCase {
         let clientError = NSError(domain: "an error", code: 0)
         client.complete(with: clientError)
         
-        XCTAssertEqual(capturedErrors, [.invalidData])
+        XCTAssertEqual(capturedErrors, [.connectivity])
     }
     
     // MARK: - Helper
