@@ -130,17 +130,29 @@ class RemoteFeedLoaderTests: XCTestCase {
     }
     
     private func expect(_ sut: RemoteFeedLoader,
-                        toCompleteWith result: RemoteFeedLoader.Result,
+                        toCompleteWith expectedResult: RemoteFeedLoader.Result,
                         when action: (()-> Void),
                         file: StaticString = #file,
                         line: UInt = #line) {
         
-        var capturedResults = [RemoteFeedLoader.Result]()
-        sut.load { capturedResults.append($0) }
+        let exp = expectation(description: "Wait for load completion")
+        
+        sut.load { receivedResult in
+            switch (receivedResult,expectedResult) {
+            case let (.success(receivedItems),.success(expectedItems)):
+                XCTAssertEqual(receivedItems,expectedItems,file: file,line: line)
+            case let (.failure(receivedError),.failure(expectedResult)):
+                XCTAssertEqual(receivedError,expectedResult,file: file,line: line)
+            default:
+                XCTFail("Expected \(receivedResult), but got \(expectedResult) instead")
+            }
+            
+            exp.fulfill()
+        }
         
         action()
         
-        XCTAssertEqual(capturedResults, [result],file: file,line: line)
+        wait(for: [exp], timeout: 1.0)
     }
     
     private func makeItem(id: UUID,
