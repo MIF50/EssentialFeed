@@ -54,9 +54,9 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     
     func test_load_deliversNoImagesOnSevenDaysOldCached() {
         let feed = uniqueImageFeed()
-        let fixedCurrenDate = Date()
-        let sevenDaysOldTimestamp = fixedCurrenDate.adding(days: -7)
-        let (sut, store) = makeSUT(currentDate: { fixedCurrenDate })
+        let fixedCurrentDate = Date()
+        let sevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         expect(sut, toCompleteWith: .success([]), when: {
             store.completeRetrieval(with: feed.local, timestamp: sevenDaysOldTimestamp)
@@ -65,9 +65,9 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     
     func test_load_deliversNoImagesOnMoreThanSevenDaysOldCached() {
         let feed = uniqueImageFeed()
-        let fixedCurrenDate = Date()
-        let moreThanSevenDaysOldTimestamp = fixedCurrenDate.adding(days: -7).adding(seconds: -1)
-        let (sut, store) = makeSUT(currentDate: { fixedCurrenDate })
+        let fixedCurrentDate = Date()
+        let moreThanSevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7).adding(seconds: -1)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         expect(sut, toCompleteWith: .success([]), when: {
             store.completeRetrieval(with: feed.local, timestamp: moreThanSevenDaysOldTimestamp)
@@ -94,9 +94,9 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
     
     func test_load_doesNotDeleteCacheOnLessThanSevenDaysOldCache() {
         let feed = uniqueImageFeed()
-        let fixedCurrenDate = Date()
-        let lessThanSevenDaysOldTimestamp = fixedCurrenDate.adding(days: -7).adding(seconds: 1)
-        let (sut, store) = makeSUT(currentDate: { fixedCurrenDate })
+        let fixedCurrentDate = Date()
+        let lessThanSevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7).adding(seconds: 1)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         sut.load { _ in }
         store.completeRetrieval(with: feed.local, timestamp: lessThanSevenDaysOldTimestamp)
