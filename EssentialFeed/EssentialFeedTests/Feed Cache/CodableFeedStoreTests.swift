@@ -11,7 +11,7 @@ import EssentialFeed
 class CodableFeedStore {
     
     func retrieve(completion: @escaping FeedStore.RetrievalCompletion) {
-        completion(.emtpy)
+        completion(.empty)
     }
 }
 
@@ -23,7 +23,7 @@ class CodableFeedStoreTests: XCTestCase {
         let exp = expectation(description: "Wait for cache retrieval")
         sut.retrieve { result in
             switch result {
-            case .emtpy:
+            case .empty:
                 break
             default:
                 XCTFail("Expected empty result, got \(result) instead")
