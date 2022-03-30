@@ -19,6 +19,6 @@ public protocol FeedStore {
     typealias RetrievalCompletion = ((RetrieveCacheFeedResult) -> Void)
 
     func deleteCachedFeed(completion: @escaping DeletionCompletion)
-    func save(_ feed: [LocalFeedImage],timestamp: Date,completion: @escaping InsertionCompletion)
+    func insert(_ feed: [LocalFeedImage],timestamp: Date,completion: @escaping InsertionCompletion)
     func retrieve(completion: @escaping RetrievalCompletion)
 }
