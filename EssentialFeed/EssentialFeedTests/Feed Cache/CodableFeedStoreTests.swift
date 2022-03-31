@@ -151,8 +151,8 @@ class CodableFeedStoreTests: XCTestCase {
     func test_insert_deliversErrorOnInsertionError() {
         let feed = uniqueImageFeed().local
         let timestamp = Date()
-        let storeURL = URL(string: "invalid//store.url")!
-        let sut = makeSUT(storeURL: storeURL)
+        let invalidStoreURL = URL(string: "invalid//store.url")!
+        let sut = makeSUT(storeURL: invalidStoreURL)
         
         let insertionError = insert((feed,timestamp), to: sut)
         XCTAssertNotNil(insertionError,"Expected cache insertion fail with an error")
