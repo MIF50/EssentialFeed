@@ -6,32 +6,8 @@
 //
 
 import XCTest
+import EssentialFeediOS
 import EssentialFeed
-
-final class FeedViewController: UITableViewController {
-    
-    private var loader: FeedLoader?
-    
-    convenience init(loader: FeedLoader){
-        self.init()
-        self.loader = loader
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
-        load()
-    }
-    
-    @objc func load() {
-        refreshControl?.beginRefreshing()
-        loader?.load(completion: { [weak self] _ in
-            self?.refreshControl?.endRefreshing()
-        })
-    }
-}
 
 final class FeedViewControllerTests: XCTestCase {
     
@@ -61,7 +37,7 @@ final class FeedViewControllerTests: XCTestCase {
         sut.simulateUserInitiatedFeedReload()
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiates a reload")
         
-        loader.completeFeedLoading()        
+        loader.completeFeedLoading()
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once user initiated loading is completed")
     }
     
