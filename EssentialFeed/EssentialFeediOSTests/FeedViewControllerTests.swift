@@ -43,8 +43,8 @@ final class FeedViewControllerTests: XCTestCase {
     
     func test_loadFeedCompletion_rendersSuccessfullyLoadedFeed() {
         let image0 = makeImage(description: "a description",location: "a location")
-        let image1 = makeImage(description: "a description",location: nil)
-        let image2 = makeImage(description: nil,location: "a location")
+        let image1 = makeImage(description: "another description",location: nil)
+        let image2 = makeImage(description: nil,location: "another location")
         let image3 = makeImage(description: nil,location: nil)
 
         let (sut, loader) = makeSUT()
@@ -142,7 +142,7 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(view0?.renderedImage, imageData0,"Expected image for first view once first image loading completes successfully")
         XCTAssertEqual(view1?.renderedImage, .none,"Expected no image state change for second view once first image loading completes successfully")
         
-        let imageData1 = UIImage.make(withColor: .red).pngData()!
+        let imageData1 = UIImage.make(withColor: .green).pngData()!
         loader.completeImageLoading(with: imageData1,at: 1)
         XCTAssertEqual(view0?.renderedImage, imageData0,"Expected no image state change for first view once second image loading completes successfully")
         XCTAssertEqual(view1?.renderedImage, imageData1,"Expected image for second view once second image loading completes successfully")
@@ -240,7 +240,10 @@ final class FeedViewControllerTests: XCTestCase {
     
     // MARK: - Helper
     
-    private func makeSUT(file: StaticString = #filePath,line: UInt = #line)-> (sut: FeedViewController,loader: LoaderSpy) {
+    private func makeSUT(
+        file: StaticString = #filePath,
+        line: UInt = #line
+    )-> (sut: FeedViewController,loader: LoaderSpy) {
         let loader = LoaderSpy()
         let sut = FeedViewController(feedLoader: loader,imageLoader: loader)
         
@@ -319,6 +322,7 @@ final class FeedViewControllerTests: XCTestCase {
         // MARK: - FeedImageDataLoader
         
         private var imageRequests = [(url: URL,completion: ((FeedImageDataLoader.Result) -> Void))]()
+        
         private struct TaskSpy: FeedImageDataLoaderTask {
             let cancelCallback: (() -> Void)
             
@@ -330,9 +334,13 @@ final class FeedViewControllerTests: XCTestCase {
         var loadedImageURLs: [URL] {
             imageRequests.map { $0.url }
         }
+        
         private(set) var cancelledImageURLs = [URL]()
         
-        func loadImageData(from url: URL,completion: @escaping ((FeedImageDataLoader.Result) -> Void)) -> FeedImageDataLoaderTask {
+        func loadImageData(
+            from url: URL,
+            completion: @escaping ((FeedImageDataLoader.Result) -> Void)
+        ) -> FeedImageDataLoaderTask {
             imageRequests.append((url,completion))
             return TaskSpy { [weak self] in
                 self?.cancelledImageURLs.append(url)
