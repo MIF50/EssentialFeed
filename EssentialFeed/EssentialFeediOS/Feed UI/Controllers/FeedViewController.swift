@@ -8,20 +8,31 @@
 import UIKit
 import EssentialFeed
 
+public final class FeedUIComposer {
+    private init() { }
+    
+    public static func feedComposeWith(feedLoader: FeedLoader,imageLoader: FeedImageDataLoader) -> FeedViewController {
+        let feedRefreshControl = FeedRefreshViewController(feedLoader: feedLoader)
+        let feedController = FeedViewController(feedRefreshControl: feedRefreshControl)
+        feedRefreshControl.onRefresh = { [weak feedController] feed in
+            feedController?.tableModel = feed.map {  model in
+                FeedImageCellController(model: model, imageLoader: imageLoader)
+            }
+        }
+        return feedController
+    }
+}
+
 public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
     
     private var feedRefreshControl: FeedRefreshViewController?
-    private var imageLoader: FeedImageDataLoader?
-    private var tableModel = [FeedImage]() {
+    var tableModel = [FeedImageCellController]() {
         didSet { tableView.reloadData() }
     }
-    
-    private var cellControllers = [IndexPath: FeedImageCellController]()
-    
-    public convenience init(feedLoader: FeedLoader,imageLoader: FeedImageDataLoader){
+        
+    convenience init(feedRefreshControl: FeedRefreshViewController){
         self.init()
-        self.feedRefreshControl = FeedRefreshViewController(feedLoader: feedLoader)
-        self.imageLoader = imageLoader
+        self.feedRefreshControl = feedRefreshControl
     }
     
     public override func viewDidLoad() {
@@ -30,9 +41,6 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
         tableView.prefetchDataSource = self
         refreshControl = feedRefreshControl?.view
         feedRefreshControl?.refresh()
-        feedRefreshControl?.onRefresh = { [weak self] feed in
-            self?.tableModel = feed
-        }
     }
     
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,7 +52,7 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     }
     
     public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        removeCellController(forRowAt: indexPath)
+        cancelCellControllerLoad(forRowAt: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
@@ -54,17 +62,14 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     }
     
     public func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach(removeCellController)
+        indexPaths.forEach(cancelCellControllerLoad)
     }
     
     private func cellController(forRowAt indexPath: IndexPath) -> FeedImageCellController {
-        let cellModel = tableModel[indexPath.row]
-        let controller = FeedImageCellController(model: cellModel, imageLoader: imageLoader!)
-        cellControllers[indexPath] = controller
-        return controller
+        return tableModel[indexPath.row]
     }
     
-    private func removeCellController(forRowAt indexPath: IndexPath) {
-        cellControllers[indexPath] = nil
+    private func cancelCellControllerLoad(forRowAt indexPath: IndexPath) {
+        cellController(forRowAt: indexPath).cancelLoad()
     }
 }
