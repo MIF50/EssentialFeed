@@ -5,6 +5,7 @@
 //  Created by Mohamed Ibrahim on 25/06/2022.
 //
 
+import Foundation
 import EssentialFeed
 
 protocol FeedLoadingView {
@@ -18,7 +19,12 @@ protocol FeedView {
 final class FeedPresenter {
     
     static var title: String {
-        "My Feed"
+        NSLocalizedString(
+            "FEED_VIEW_TITLE",
+            tableName: "Feed",
+            bundle: Bundle(for: FeedPresenter.self),
+            comment: "title for feed view"
+        )
     }
     
     private let feedView: FeedView
