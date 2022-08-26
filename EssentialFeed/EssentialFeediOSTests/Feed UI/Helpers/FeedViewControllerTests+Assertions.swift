@@ -9,7 +9,7 @@ import XCTest
 import EssentialFeediOS
 import EssentialFeed
 
-extension FeedViewControllerTests {
+extension FeedUIIntegrationTests {
     
     func assertThat(
         _ sut: FeedViewController,
