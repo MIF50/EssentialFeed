@@ -8,5 +8,17 @@
 import UIKit
 
 public final class ErrorView: UIView {
-    public var message: String? = nil
+    
+    @IBOutlet private var label: UILabel!
+    
+    public var message: String? {
+        get { label.text }
+        set { label.text = newValue }
+    }
+    
+    public override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        label.text = nil
+    }
 }

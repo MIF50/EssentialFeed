@@ -18,7 +18,24 @@
                         <view key="tableHeaderView" contentMode="scaleToFill" id="rh3-yt-aUD" customClass="ErrorView" customModule="EssentialFeediOS" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fdm-be-dVp">
+                                    <rect key="frame" x="8" y="8" width="398" height="0.0"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="Fdm-be-dVp" firstAttribute="top" secondItem="rh3-yt-aUD" secondAttribute="top" constant="8" id="C7z-JM-f4d"/>
+                                <constraint firstAttribute="bottom" secondItem="Fdm-be-dVp" secondAttribute="bottom" constant="8" id="HlM-aO-dEw"/>
+                                <constraint firstItem="Fdm-be-dVp" firstAttribute="leading" secondItem="rh3-yt-aUD" secondAttribute="leading" constant="8" id="hFF-Mc-Wms"/>
+                                <constraint firstAttribute="trailing" secondItem="Fdm-be-dVp" secondAttribute="trailing" constant="8" id="kO2-IA-UnI"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="label" destination="Fdm-be-dVp" id="ii0-X5-eAG"/>
+                            </connections>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="aGv-MZ-BKu">
                             <rect key="frame" x="0.0" y="633" width="414" height="16"/>
