@@ -187,8 +187,9 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
         var error: Error? = nil
 
         
-        func get(from url: URL,completion: @escaping ((HTTPClient.Result)-> Void)) {
+        func get(from url: URL,completion: @escaping ((HTTPClient.Result)-> Void)) -> HTTPClientTask {
             messages.append((url,completion))
+            return Task()
         }
         
         func complete(with error: NSError,at index: Int = 0 ) {
@@ -204,6 +205,10 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
                                            headerFields: nil)!
             messages[index].completion(.success((data,response)))
             
+        }
+        
+        private class Task: HTTPClientTask {
+            func cancel() {}
         }
     }
 

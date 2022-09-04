@@ -16,8 +16,9 @@ class RemoteFeedImageDataLoader {
         self.client = client
     }
     
-    func loadImageData(from url: URL,completion: @escaping((FeedImageDataLoader.Result) -> Void)) {
-        client.get(from: url) { [weak self] result in
+    @discardableResult
+    func loadImageData(from url: URL,completion: @escaping((FeedImageDataLoader.Result) -> Void)) -> FeedImageDataLoaderTask {
+       let task = client.get(from: url) { [weak self] result in
             guard self != nil else { return }
             
             switch result {
@@ -30,10 +31,19 @@ class RemoteFeedImageDataLoader {
             case let .failure(error): completion(.failure(error))
             }
         }
+        return HTTPTaskWrapper(wrapped: task)
     }
     
     enum Error: Swift.Error {
         case invalidData
+    }
+    
+    private struct HTTPTaskWrapper: FeedImageDataLoaderTask {
+        let wrapped: HTTPClientTask
+        
+        func cancel() {
+            wrapped.cancel()
+        }
     }
 }
 
@@ -167,13 +177,15 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     private class HTTPClientSpy: HTTPClient {
         
         private var messages = [(url: URL,completion: (HTTPClient.Result) -> Void)]()
+        var cancelledURLs = [URL]()
         
         var requestedURLs: [URL] {
             messages.map {$0.url}
         }
         
-        func get(from url: URL, completion: @escaping ((HTTPClient.Result) -> Void)) {
+        func get(from url: URL, completion: @escaping ((HTTPClient.Result) -> Void)) -> HTTPClientTask {
             messages.append((url,completion))
+            return Task()
         }
         
         func complete(withStatusCode code: Int,data: Data,at index: Int = 0) {
@@ -187,6 +199,10 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         
         func complete(with error: Error,at index: Int = 0) {
             messages[index].completion(.failure(error))
+        }
+        
+        private class Task: HTTPClientTask {
+            func cancel() {}
         }
         
     }
