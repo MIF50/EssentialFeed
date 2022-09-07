@@ -175,41 +175,4 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
         let json = ["items": items]
         return try! JSONSerialization.data(withJSONObject: json)
     }
-    
-    private class HTTPClientSpy: HTTPClient {
-        
-        private var messages = [(url: URL,completion: ((HTTPClient.Result)-> Void))]()
-
-        var requestedURLs: [URL] {
-            messages.map { $0.url }
-        }
-        
-        var error: Error? = nil
-
-        
-        func get(from url: URL,completion: @escaping ((HTTPClient.Result)-> Void)) -> HTTPClientTask {
-            messages.append((url,completion))
-            return Task()
-        }
-        
-        func complete(with error: NSError,at index: Int = 0 ) {
-            messages[index].completion(.failure(error))
-        }
-        
-        func complete(withStatusCode code:Int,
-                      data: Data,
-                      at index: Int = 0) {
-            let response = HTTPURLResponse(url: requestedURLs[index],
-                                           statusCode: code,
-                                           httpVersion: nil,
-                                           headerFields: nil)!
-            messages[index].completion(.success((data,response)))
-            
-        }
-        
-        private class Task: HTTPClientTask {
-            func cancel() {}
-        }
-    }
-
 }
