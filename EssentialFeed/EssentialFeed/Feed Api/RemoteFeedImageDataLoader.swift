@@ -23,7 +23,7 @@ public class RemoteFeedImageDataLoader: FeedImageDataLoader {
             task.complete(with: result
                 .mapError{ _ in Error.connectivity }
                 .flatMap{ data,response in
-                    let isValidResponse = response.isO && !data.isEmpty
+                    let isValidResponse = response.isOK && !data.isEmpty
                     return isValidResponse ? .success(data) : .failure(Error.invalidData)
                 }
             )
