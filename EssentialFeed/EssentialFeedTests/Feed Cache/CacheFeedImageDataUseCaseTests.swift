@@ -35,6 +35,14 @@ class CacheFeedImageDataUseCaseTests: XCTestCase {
         })
     }
     
+    func test_saveImageDataForURL_succeedsOnSuccessfulInsertion() {
+        let (sut, store) = makeSUT()
+        
+        expect(sut, toCompleteWith: .success(()), when: {
+            store.completeInsertionSuccessfully()
+        })
+    }
+    
     //MARK: - Helper
     
     private func makeSUT(
