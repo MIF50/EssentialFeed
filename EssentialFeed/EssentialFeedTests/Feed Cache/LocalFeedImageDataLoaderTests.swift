@@ -24,14 +24,18 @@ final class LocalFeedImageDataStore: FeedImageDataLoader {
     }
     
     func loadImageData(from url: URL, completion: @escaping ((FeedImageDataLoader.Result) -> Void)) -> FeedImageDataLoaderTask {
-        store.retrieve(dataForURL: url) { _ in
-            completion(.failure(Error.failed))
+        store.retrieve(dataForURL: url) { result in
+            completion(result
+                .mapError{ _ in Error.failed }
+                .flatMap { _ in .failure(Error.notFound) }
+            )
         }
         return Task()
     }
     
     public enum Error: Swift.Error {
         case failed
+        case notFound
     }
     
     private struct Task: FeedImageDataLoaderTask {
@@ -67,6 +71,14 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         })
     }
     
+    func test_loadImageDataFromURL_deliversNotFoundErrorOnNotFoundData() {
+        let (sut, store) = makeSUT()
+        
+        expect(sut, toCompleteWith: notFound(), when: {
+            store.complete(with: .none)
+        })
+    }
+    
     //MARK: - Helper
     
     private func makeSUT(
@@ -94,8 +106,10 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
             switch (receievedResult,expectedResult) {
             case let (.success(receivedData),.success(expectedData)):
                 XCTAssertEqual(receivedData, expectedData,file: file,line: line)
+                
             case let (.failure(receivedError as LocalFeedImageDataStore.Error),.failure(expectedError as LocalFeedImageDataStore.Error)):
                 XCTAssertEqual(receivedError, expectedError,file: file,line: line)
+                
             default:
                 XCTFail("Expected result \(expectedResult), but got \(receievedResult) instead")
             }
@@ -105,6 +119,10 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         
         action()
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    private func notFound() -> LocalFeedImageDataStore.Result {
+        .failure(LocalFeedImageDataStore.Error.notFound)
     }
     
     private func failed() -> LocalFeedImageDataStore.Result {
@@ -128,6 +146,10 @@ class LocalFeedImageDataLoaderTests: XCTestCase {
         
         func complete(with error: Error,at index: Int = 0 ) {
             completions[index](.failure(error))
+        }
+        
+        func complete(with data: Data?,at index: Int = 0) {
+            completions[index](.success(data))
         }
     }
 
