@@ -98,6 +98,7 @@
 		B5F2D59528CB5C090001D204 /* LocalFeedImageDataFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F2D59428CB5C090001D204 /* LocalFeedImageDataFromCacheUseCaseTests.swift */; };
 		B5F2D59728CC3F090001D204 /* FeedImageDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F2D59628CC3F090001D204 /* FeedImageDataStore.swift */; };
 		B5F2D59928CC3F1F0001D204 /* LocalFeedImageDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F2D59828CC3F1F0001D204 /* LocalFeedImageDataStore.swift */; };
+		B5F2D59B28CC48A90001D204 /* FeedImageDataStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F2D59A28CC48A90001D204 /* FeedImageDataStoreSpy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -240,6 +241,7 @@
 		B5F2D59428CB5C090001D204 /* LocalFeedImageDataFromCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImageDataFromCacheUseCaseTests.swift; sourceTree = "<group>"; };
 		B5F2D59628CC3F090001D204 /* FeedImageDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataStore.swift; sourceTree = "<group>"; };
 		B5F2D59828CC3F1F0001D204 /* LocalFeedImageDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedImageDataStore.swift; sourceTree = "<group>"; };
+		B5F2D59A28CC48A90001D204 /* FeedImageDataStoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataStoreSpy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -558,6 +560,7 @@
 			children = (
 				B58DD08B27E2EFF8008BED9B /* FeedStoreSpy.swift */,
 				B535821227E9875B00C6FD41 /* FeedCacheTestHelper.swift */,
+				B5F2D59A28CC48A90001D204 /* FeedImageDataStoreSpy.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -917,6 +920,7 @@
 				B58DD08C27E2EFF8008BED9B /* FeedStoreSpy.swift in Sources */,
 				B535821327E9875B00C6FD41 /* FeedCacheTestHelper.swift in Sources */,
 				B52F152027DEFC3100CC5533 /* FeedCacheUseCaseTests.swift in Sources */,
+				B5F2D59B28CC48A90001D204 /* FeedImageDataStoreSpy.swift in Sources */,
 				B58DD08927E2EECB008BED9B /* LoadFeedFromCacheUseCaseTests.swift in Sources */,
 				B5F2D59528CB5C090001D204 /* LocalFeedImageDataFromCacheUseCaseTests.swift in Sources */,
 				B5403F7927F7990900850ED1 /* FeedStoreSpecs.swift in Sources */,
