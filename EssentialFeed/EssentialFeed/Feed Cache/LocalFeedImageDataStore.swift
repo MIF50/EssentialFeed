@@ -9,11 +9,16 @@ import Foundation
 
 public final class LocalFeedImageDataStore: FeedImageDataLoader {
     
-    
     private let store: FeedImageDataStore
     
     public init(store: FeedImageDataStore) {
         self.store = store
+    }
+    
+    public typealias SaveResult = Result<Void,Error>
+    
+    public func save(data: Data,for url: URL,completion: @escaping ((SaveResult) -> Void)) {
+        store.insert(data: data, for: url) { _ in }
     }
     
     public func loadImageData(from url: URL, completion: @escaping ((FeedImageDataLoader.Result) -> Void)) -> FeedImageDataLoaderTask {
