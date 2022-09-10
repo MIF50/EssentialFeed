@@ -20,7 +20,13 @@ extension LocalFeedImageDataStore {
     public typealias SaveResult = Result<Void,Error>
     
     public func save(data: Data,for url: URL,completion: @escaping ((SaveResult) -> Void)) {
-        store.insert(data: data, for: url) { _ in }
+        store.insert(data: data, for: url) { _ in
+            completion(.failure(SaveError.failed))
+        }
+    }
+    
+    public enum SaveError: Error {
+        case failed
     }
 }
 
