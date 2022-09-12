@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class LocalFeedImageDataStore {
+public final class LocalFeedImageDataLoader {
     
     private let store: FeedImageDataStore
     
@@ -16,7 +16,7 @@ public final class LocalFeedImageDataStore {
     }
 }
 
-extension LocalFeedImageDataStore {
+extension LocalFeedImageDataLoader {
     public typealias SaveResult = Result<Void,Error>
     
     public func save(data: Data,for url: URL,completion: @escaping ((SaveResult) -> Void)) {
@@ -32,7 +32,7 @@ extension LocalFeedImageDataStore {
     }
 }
 
-extension LocalFeedImageDataStore: FeedImageDataLoader {
+extension LocalFeedImageDataLoader: FeedImageDataLoader {
     
     typealias LoadResult = FeedImageDataLoader.Result
     
