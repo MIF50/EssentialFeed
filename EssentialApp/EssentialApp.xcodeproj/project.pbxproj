@@ -13,11 +13,11 @@
 		B596707628D0FAD000CFA138 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B596707428D0FAD000CFA138 /* Main.storyboard */; };
 		B596707828D0FAD100CFA138 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B596707728D0FAD100CFA138 /* Assets.xcassets */; };
 		B596707B28D0FAD100CFA138 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B596707928D0FAD100CFA138 /* LaunchScreen.storyboard */; };
-		B596708928D0FAEF00CFA138 /* EssentialAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596708828D0FAEF00CFA138 /* EssentialAppTests.swift */; };
 		B596709228D0FBCA00CFA138 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B596709028D0FBCA00CFA138 /* EssentialFeed.framework */; };
 		B596709328D0FBCA00CFA138 /* EssentialFeed.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B596709028D0FBCA00CFA138 /* EssentialFeed.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B596709428D0FBCA00CFA138 /* EssentialFeediOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B596709128D0FBCA00CFA138 /* EssentialFeediOS.framework */; };
 		B596709528D0FBCA00CFA138 /* EssentialFeediOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B596709128D0FBCA00CFA138 /* EssentialFeediOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B5F7C42728D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F7C42628D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,9 +55,9 @@
 		B596707A28D0FAD100CFA138 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B596707C28D0FAD100CFA138 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B596708628D0FAEF00CFA138 /* EssentialAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B596708828D0FAEF00CFA138 /* EssentialAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialAppTests.swift; sourceTree = "<group>"; };
 		B596709028D0FBCA00CFA138 /* EssentialFeed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EssentialFeed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B596709128D0FBCA00CFA138 /* EssentialFeediOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = EssentialFeediOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5F7C42628D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +116,7 @@
 		B596708728D0FAEF00CFA138 /* EssentialAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				B596708828D0FAEF00CFA138 /* EssentialAppTests.swift */,
+				B5F7C42628D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift */,
 			);
 			path = EssentialAppTests;
 			sourceTree = "<group>";
@@ -184,6 +184,7 @@
 					};
 					B596708528D0FAEF00CFA138 = {
 						CreatedOnToolsVersion = 13.4.1;
+						LastSwiftMigration = 1400;
 						TestTargetID = B596706A28D0FAD000CFA138;
 					};
 				};
@@ -242,7 +243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B596708928D0FAEF00CFA138 /* EssentialAppTests.swift in Sources */,
+				B5F7C42728D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,14 +451,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GK4GDX3M3T;
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mif50.EssentialAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EssentialApp.app/EssentialApp";
@@ -468,10 +476,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GK4GDX3M3T;
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mif50.EssentialAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
