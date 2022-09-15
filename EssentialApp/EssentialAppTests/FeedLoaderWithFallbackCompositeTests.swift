@@ -25,9 +25,7 @@ final class FeedLoaderWithFallbackCompositeTests: XCTestCase {
     func test_load_deliversPrimaryFeedOnPrimarySuccess() {
         let primaryFeed = uniqueFeed()
         let fallbackFeed = uniqueFeed()
-        let fallbackLoader = LoaderStub(result: .success(fallbackFeed))
-        let primaryLoader = LoaderStub(result: .success(primaryFeed))
-        let sut = FeedLoaderWithFallbackComposite(primary: primaryLoader,fallback: fallbackLoader)
+        let sut = makeSUT(primaryResult: .success(primaryFeed), fallbackResult: .success(fallbackFeed))
         let exp = expectation(description: "wait to load completion")
         sut.load { result in
             switch result {
@@ -44,11 +42,36 @@ final class FeedLoaderWithFallbackCompositeTests: XCTestCase {
     
     //MARK: - Helpers
     
+    private func makeSUT(
+        primaryResult: FeedLoader.Result,
+        fallbackResult: FeedLoader.Result,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> FeedLoaderWithFallbackComposite {
+        let fallbackLoader = LoaderStub(result: fallbackResult)
+        let primaryLoader = LoaderStub(result: primaryResult)
+        let sut = FeedLoaderWithFallbackComposite(primary: primaryLoader, fallback: fallbackLoader)
+        trackForMemoryLeaks(fallbackLoader,file: file,line: line)
+        trackForMemoryLeaks(primaryLoader,file: file,line: line)
+        trackForMemoryLeaks(sut,file: file,line: line)
+        return sut
+    }
+    
+    private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
+        }
+    }
+    
     private func uniqueFeed() -> [FeedImage] {
         [FeedImage(id: UUID(), description: "any", location: "any", url: URL(string: "http://any-url.com")!)]
     }
     
-    class LoaderStub: FeedLoader {
+    private func anyNSError() -> NSError {
+        NSError(domain: "any error", code: 0)
+    }
+    
+    final class LoaderStub: FeedLoader {
         
         private let result: FeedLoader.Result
         
