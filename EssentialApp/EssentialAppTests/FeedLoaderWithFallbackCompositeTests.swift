@@ -76,11 +76,7 @@ final class FeedLoaderWithFallbackCompositeTests: XCTestCase {
     }
     
     private func uniqueFeed() -> [FeedImage] {
-        [FeedImage(id: UUID(), description: "any", location: "any", url: URL(string: "http://any-url.com")!)]
-    }
-    
-    private func anyNSError() -> NSError {
-        NSError(domain: "any error", code: 0)
+        [FeedImage(id: UUID(), description: "any", location: "any", url: anyURL())]
     }
     
     final class LoaderStub: FeedLoader {
