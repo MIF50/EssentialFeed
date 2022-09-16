@@ -25,7 +25,7 @@ final class FeedImageDataLoaderWithFallbackComposite: FeedImageDataLoader {
             case .success:
                 break
             case .failure:
-                task.wrapped = self?.fallback.loadImageData(from: url, completion: { _ in })
+                task.wrapped = self?.fallback.loadImageData(from: url) { _ in }
             }
         }
         return task
@@ -54,7 +54,7 @@ final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         let url = anyURL()
         let (sut,primaryLoader,fallbackLoader) = makeSUT()
         
-        _ = sut.loadImageData(from: url, completion: { _ in })
+        _ = sut.loadImageData(from: url) { _ in }
                 
         XCTAssertEqual(primaryLoader.loadedURLs, [url],"Expected to load URL from primary loader")
         XCTAssertTrue(fallbackLoader.loadedURLs.isEmpty,"Expected no loaded URLs in the fallback loader")
@@ -64,7 +64,7 @@ final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         let url = anyURL()
         let(sut,primaryLoader,fallbackLoader) = makeSUT()
         
-        _ = sut.loadImageData(from: url, completion: { _ in })
+        _ = sut.loadImageData(from: url) { _ in }
         primaryLoader.complete(with: anyNSError())
         
         XCTAssertEqual(primaryLoader.loadedURLs, [url],"Expected to load URL from primary loader")
@@ -75,7 +75,7 @@ final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         let url = anyURL()
         let (sut,primaryLoader,fallbackLoader) = makeSUT()
         
-        let task = sut.loadImageData(from: anyURL(), completion: { _ in })
+        let task = sut.loadImageData(from: anyURL()) { _ in }
         task.cancel()
         
         XCTAssertEqual(primaryLoader.cancelledURLs,[url], "Expected to cancel URL loading from primary loader")
@@ -86,7 +86,7 @@ final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         let url = anyURL()
         let (sut, primaryLoader,fallbackLoader) = makeSUT()
         
-        let task = sut.loadImageData(from: url, completion: { _ in })
+        let task = sut.loadImageData(from: url) { _ in }
         primaryLoader.complete(with: anyNSError())
         task.cancel()
         
