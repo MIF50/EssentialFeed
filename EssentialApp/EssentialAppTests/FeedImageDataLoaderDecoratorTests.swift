@@ -70,8 +70,8 @@ final class FeedImageDataLoaderDecoratorTests: XCTestCase {
     private func makeSUT(
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: FeedImageDataLoaderDecorator,loader: LoaderSpy) {
-        let loader = LoaderSpy()
+    ) -> (sut: FeedImageDataLoaderDecorator,loader: FeedImageLoaderSpy) {
+        let loader = FeedImageLoaderSpy()
         let sut = FeedImageDataLoaderDecorator(decoratee: loader)
         trackForMemoryLeaks(loader,file: file,line: line)
         trackForMemoryLeaks(sut,file: file,line: line)
@@ -104,39 +104,5 @@ final class FeedImageDataLoaderDecoratorTests: XCTestCase {
         action()
         
         wait(for: [exp], timeout: 1.0)
-    }
-
-    final class LoaderSpy: FeedImageDataLoader {
-        
-        private(set) var messages = [(url: URL,completion: (FeedImageDataLoader.Result) -> Void)]()
-        
-        var loadedURLs: [URL] {
-            messages.map { $0.url }
-        }
-        
-        private(set) var cancelledURLs = [URL]()
-        
-        func loadImageData(from url: URL, completion: @escaping ((FeedImageDataLoader.Result) -> Void)) -> FeedImageDataLoaderTask {
-            messages.append((url,completion))
-            return Task{ [weak self] in
-                self?.cancelledURLs.append(url)
-            }
-        }
-        
-        func complete(with data: Data,at index: Int = 0) {
-            messages[index].completion(.success((data)))
-        }
-        
-        func complete(with error: NSError,at index: Int = 0) {
-            messages[index].completion(.failure(error))
-        }
-        
-        private struct Task: FeedImageDataLoaderTask {
-            var callback: (() -> Void)?
-            
-            func cancel() {
-                callback?()
-            }
-        }
     }
 }

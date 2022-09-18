@@ -95,9 +95,9 @@ final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
     private func makeSUT(
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: FeedImageDataLoaderWithFallbackComposite,primary: LoaderSpy,fallback: LoaderSpy) {
-        let primaryLoader = LoaderSpy()
-        let fallbackLoader = LoaderSpy()
+    ) -> (sut: FeedImageDataLoaderWithFallbackComposite,primary: FeedImageLoaderSpy,fallback: FeedImageLoaderSpy) {
+        let primaryLoader = FeedImageLoaderSpy()
+        let fallbackLoader = FeedImageLoaderSpy()
         let sut = FeedImageDataLoaderWithFallbackComposite(primary: primaryLoader,fallback: fallbackLoader)
         trackForMemoryLeaks(primaryLoader,file: file,line: line)
         trackForMemoryLeaks(fallbackLoader,file: file,line: line)
@@ -131,39 +131,5 @@ final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         action()
         
         wait(for: [exp], timeout: 1.0)
-    }
-    
-    final class LoaderSpy: FeedImageDataLoader {
-        
-        private(set) var messages = [(url: URL,completion: (FeedImageDataLoader.Result) -> Void)]()
-        
-        var loadedURLs: [URL] {
-            messages.map { $0.url }
-        }
-        
-        private(set) var cancelledURLs = [URL]()
-        
-        func loadImageData(from url: URL, completion: @escaping ((FeedImageDataLoader.Result) -> Void)) -> FeedImageDataLoaderTask {
-            messages.append((url,completion))
-            return Task{ [weak self] in
-                self?.cancelledURLs.append(url)
-            }
-        }
-        
-        func complete(with data: Data,at index: Int = 0) {
-            messages[index].completion(.success((data)))
-        }
-        
-        func complete(with error: NSError,at index: Int = 0) {
-            messages[index].completion(.failure(error))
-        }
-        
-        private struct Task: FeedImageDataLoaderTask {
-            var callback: (() -> Void)?
-            
-            func cancel() {
-                callback?()
-            }
-        }
     }
 }
