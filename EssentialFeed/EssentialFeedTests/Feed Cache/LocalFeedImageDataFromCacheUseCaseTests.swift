@@ -95,7 +95,7 @@ class LocalFeedImageDataFromCacheUseCaseTests: XCTestCase {
     
     private func expect(
         _ sut: LocalFeedImageDataLoader,
-        toCompleteWith expectedResult: LocalFeedImageDataLoader.Result,
+        toCompleteWith expectedResult: LocalFeedImageDataLoader.LoadResult,
         when action: (() -> Void),
         file: StaticString = #filePath,
         line: UInt = #line
@@ -121,11 +121,11 @@ class LocalFeedImageDataFromCacheUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    private func notFound() -> LocalFeedImageDataLoader.Result {
+    private func notFound() -> LocalFeedImageDataLoader.LoadResult {
         .failure(LocalFeedImageDataLoader.LoadError.notFound)
     }
     
-    private func failed() -> LocalFeedImageDataLoader.Result {
+    private func failed() -> LocalFeedImageDataLoader.LoadResult {
         .failure(LocalFeedImageDataLoader.LoadError.failed)
     }
     

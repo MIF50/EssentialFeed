@@ -180,7 +180,7 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         line: UInt = #line
     ) {
         let exp = expectation(description: "wait to save completion")
-        loader.save(data: data, for: url) { result in
+        loader.save(data, for: url) { result in
             if case let Result.failure(error) = result {
                 XCTFail("Expected to save image data successfully, got error: \(error)", file: file, line: line)
             }

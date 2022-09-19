@@ -16,10 +16,10 @@ public final class LocalFeedImageDataLoader {
     }
 }
 
-extension LocalFeedImageDataLoader {
-    public typealias SaveResult = Result<Void,Error>
+extension LocalFeedImageDataLoader: FeedImageDataCache {
+    public typealias SaveResult = FeedImageDataCache.Result
     
-    public func save(data: Data,for url: URL,completion: @escaping ((SaveResult) -> Void)) {
+    public func save(_ data: Data,for url: URL,completion: @escaping ((SaveResult) -> Void)) {
         store.insert(data: data, for: url) { [weak self] result in
             guard self != nil else { return }
 
@@ -34,7 +34,7 @@ extension LocalFeedImageDataLoader {
 
 extension LocalFeedImageDataLoader: FeedImageDataLoader {
     
-    typealias LoadResult = FeedImageDataLoader.Result
+    public typealias LoadResult = FeedImageDataLoader.Result
     
     public func loadImageData(from url: URL, completion: @escaping ((FeedImageDataLoader.Result) -> Void)) -> FeedImageDataLoaderTask {
         let task = Task(completion)
