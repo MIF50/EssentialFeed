@@ -9,7 +9,7 @@ import XCTest
 import EssentialFeed
 import EssentialApp
 
-final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
+final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase, FeedImageDataLoaderTestCase {
     
     func test_init_doesNotloadImageData() {
         let (_,primaryLoader,fallbackLoader) = makeSUT()
@@ -103,33 +103,5 @@ final class FeedImageDataLoaderWithFallbackCompositeTests: XCTestCase {
         trackForMemoryLeaks(fallbackLoader,file: file,line: line)
         trackForMemoryLeaks(sut,file: file,line: line)
         return (sut,primaryLoader,fallbackLoader)
-    }
-    
-    private func expect(
-        _ sut:FeedImageDataLoaderWithFallbackComposite,
-        toCompleteWith expectedResult: FeedImageDataLoader.Result,
-        when action: (() -> Void),
-        file: StaticString = #filePath,
-        line: UInt = #line
-    ) {
-       
-        let exp = expectation(description: "wait for load completion")
-        _  = sut.loadImageData(from: anyURL()) { receivedResult in
-            switch (expectedResult,receivedResult) {
-            case let (.success(expectedData),.success(receivedData)):
-                XCTAssertEqual(expectedData, receivedData,file: file,line: line)
-                
-            case let (.failure(expectedError as NSError),.failure(receivedError as NSError)):
-                XCTAssertEqual(expectedError, receivedError,file: file,line: line)
-
-            default:
-                XCTFail("Expected result \(expectedResult) but got \(receivedResult) instead")
-            }
-            exp.fulfill()
-        }
-        
-        action()
-        
-        wait(for: [exp], timeout: 1.0)
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B52080B728D8BDA6008AFB62 /* XCTestCase+FeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52080B628D8BDA6008AFB62 /* XCTestCase+FeedImageDataLoader.swift */; };
 		B54F602028D7AC9200E0560F /* FeedImageDataLoaderDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54F601F28D7AC9200E0560F /* FeedImageDataLoaderDecoratorTests.swift */; };
 		B54F602228D7B1B400E0560F /* FeedImageLoaderSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54F602128D7B1B400E0560F /* FeedImageLoaderSpy.swift */; };
 		B596706F28D0FAD000CFA138 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B596706E28D0FAD000CFA138 /* AppDelegate.swift */; };
@@ -57,6 +58,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B52080B628D8BDA6008AFB62 /* XCTestCase+FeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+FeedImageDataLoader.swift"; sourceTree = "<group>"; };
 		B54F601F28D7AC9200E0560F /* FeedImageDataLoaderDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageDataLoaderDecoratorTests.swift; sourceTree = "<group>"; };
 		B54F602128D7B1B400E0560F /* FeedImageLoaderSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageLoaderSpy.swift; sourceTree = "<group>"; };
 		B596706B28D0FAD000CFA138 /* EssentialApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EssentialApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,6 +164,7 @@
 		B5B34D5928D45CDD0095DC6B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B52080B628D8BDA6008AFB62 /* XCTestCase+FeedImageDataLoader.swift */,
 				B5B0D4C628D5DBD1003C57FE /* XCTestCase+FeedLoader.swift */,
 				B5B34D5A28D45CF70095DC6B /* XCTestCase+MemoryLeakTracking.swift */,
 				B5B34D5C28D45D6B0095DC6B /* SharedTestHelpers.swift */,
@@ -290,6 +293,7 @@
 				B54F602028D7AC9200E0560F /* FeedImageDataLoaderDecoratorTests.swift in Sources */,
 				B54F602228D7B1B400E0560F /* FeedImageLoaderSpy.swift in Sources */,
 				B5B34D5D28D45D6B0095DC6B /* SharedTestHelpers.swift in Sources */,
+				B52080B728D8BDA6008AFB62 /* XCTestCase+FeedImageDataLoader.swift in Sources */,
 				B5B0D4C728D5DBD1003C57FE /* XCTestCase+FeedLoader.swift in Sources */,
 				B5B0D4C328D5D200003C57FE /* FeedLoaderCacheDecoratorTests.swift in Sources */,
 				B5B34D5628D39BE10095DC6B /* FeedImageDataLoaderWithFallbackCompositeTests.swift in Sources */,
