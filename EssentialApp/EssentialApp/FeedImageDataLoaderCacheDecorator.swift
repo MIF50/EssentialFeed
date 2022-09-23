@@ -8,7 +8,7 @@
 import Foundation
 import EssentialFeed
 
-public final class FeedImageDataLoaderCachedDecorator: FeedImageDataLoader {
+public final class FeedImageDataLoaderCacheDecorator: FeedImageDataLoader {
     
     private let decoratee: FeedImageDataLoader
     private let cache: FeedImageDataCache

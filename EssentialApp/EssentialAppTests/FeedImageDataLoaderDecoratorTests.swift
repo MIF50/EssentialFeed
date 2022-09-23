@@ -81,9 +81,9 @@ final class FeedImageDataLoaderDecoratorTests: XCTestCase, FeedImageDataLoaderTe
         cache: CacheSpy = .init(),
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: FeedImageDataLoaderCachedDecorator,loader: FeedImageLoaderSpy) {
+    ) -> (sut: FeedImageDataLoaderCacheDecorator,loader: FeedImageLoaderSpy) {
         let loader = FeedImageLoaderSpy()
-        let sut = FeedImageDataLoaderCachedDecorator(decoratee: loader,cache: cache)
+        let sut = FeedImageDataLoaderCacheDecorator(decoratee: loader,cache: cache)
         trackForMemoryLeaks(loader,file: file,line: line)
         trackForMemoryLeaks(sut,file: file,line: line)
         return (sut,loader)
