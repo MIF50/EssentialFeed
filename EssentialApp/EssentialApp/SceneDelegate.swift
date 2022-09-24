@@ -21,7 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
-        
+        configureWindow()
+    }
+    
+    func configureWindow() {
         let remoteURL = URL(string: "https://static1.squarespace.com/static/5891c5b8d1758ec68ef5dbc2/t/5db4155a4fbade21d17ecd28/1572083034355/essential_app_feed.json")!
         
         let remoteClient = makeRemoteClient()
@@ -32,20 +35,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let localFeedLoader = LocalFeedLoader(store: localStore, currentDate: Date.init)
         let localImageLoader = LocalFeedImageDataLoader(store: localStore)
         
-        window?.rootViewController = FeedUIComposer.feedComposeWith(
-            feedLoader: FeedLoaderWithFallbackComposite(
-                primary: FeedLoaderCacheDecorator(
-                    decoratee: remoteFeedLoader,
-                    cache: localFeedLoader),
-                fallback: localFeedLoader),
-            imageLoader: FeedImageDataLoaderWithFallbackComposite(
-                primary: localImageLoader,
-                fallback: FeedImageDataLoaderCacheDecorator(
-                    decoratee: remoteImageLoader,
-                    cache: localImageLoader))
+        let feedLoader = FeedLoaderWithFallbackComposite(
+            primary: FeedLoaderCacheDecorator(decoratee: remoteFeedLoader,cache: localFeedLoader),
+            fallback: localFeedLoader
         )
-        window?.makeKeyAndVisible()
         
+        let imageLoader = FeedImageDataLoaderWithFallbackComposite(
+            primary: localImageLoader,
+            fallback: FeedImageDataLoaderCacheDecorator(decoratee: remoteImageLoader,cache: localImageLoader)
+        )
+        
+        let feedViewcontroller = FeedUIComposer.feedComposeWith(feedLoader: feedLoader,imageLoader: imageLoader)
+        window?.rootViewController = UINavigationController(rootViewController: feedViewcontroller)
+        window?.makeKeyAndVisible()
     }
     
     func makeRemoteClient() -> HTTPClient {
