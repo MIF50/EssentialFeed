@@ -8,6 +8,7 @@
 import XCTest
 import EssentialFeediOS
 import EssentialFeed
+import EssentialApp
 
 final class FeedUIIntegrationTests: XCTestCase {
     
@@ -326,3 +327,4 @@ final class FeedUIIntegrationTests: XCTestCase {
         UIImage.make(withColor: .red).pngData()!
     }
 }
+
