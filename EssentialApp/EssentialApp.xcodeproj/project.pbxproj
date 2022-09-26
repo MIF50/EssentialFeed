@@ -49,19 +49,11 @@
 		B5C8125028DEC7E300A79A4A /* FeedViewControllerTests+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C8124728DEC7E300A79A4A /* FeedViewControllerTests+Localization.swift */; };
 		B5C8125128DEC7E300A79A4A /* FeedViewController+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C8124828DEC7E300A79A4A /* FeedViewController+TestHelpers.swift */; };
 		B5C8125528DEC82600A79A4A /* FeedUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C8125428DEC82600A79A4A /* FeedUIIntegrationTests.swift */; };
-		B5E0983228DA4B00005DBD2F /* EssentialAppUIAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E0983128DA4B00005DBD2F /* EssentialAppUIAcceptanceTests.swift */; };
 		B5F7C42728D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F7C42628D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		B596708A28D0FAEF00CFA138 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B596706328D0FAD000CFA138 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B596706A28D0FAD000CFA138;
-			remoteInfo = EssentialApp;
-		};
-		B5E0983528DA4B00005DBD2F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B596706328D0FAD000CFA138 /* Project object */;
 			proxyType = 1;
@@ -129,8 +121,6 @@
 		B5C8124728DEC7E300A79A4A /* FeedViewControllerTests+Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedViewControllerTests+Localization.swift"; sourceTree = "<group>"; };
 		B5C8124828DEC7E300A79A4A /* FeedViewController+TestHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedViewController+TestHelpers.swift"; sourceTree = "<group>"; };
 		B5C8125428DEC82600A79A4A /* FeedUIIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUIIntegrationTests.swift; sourceTree = "<group>"; };
-		B5E0982F28DA4B00005DBD2F /* EssentialAppUIAcceptanceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialAppUIAcceptanceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B5E0983128DA4B00005DBD2F /* EssentialAppUIAcceptanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialAppUIAcceptanceTests.swift; sourceTree = "<group>"; };
 		B5F7C42628D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,13 +141,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B5E0982C28DA4B00005DBD2F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -166,7 +149,6 @@
 			children = (
 				B596706D28D0FAD000CFA138 /* EssentialApp */,
 				B596708728D0FAEF00CFA138 /* EssentialAppTests */,
-				B5E0983028DA4B00005DBD2F /* EssentialAppUIAcceptanceTests */,
 				B596706C28D0FAD000CFA138 /* Products */,
 				B596708F28D0FBCA00CFA138 /* Frameworks */,
 			);
@@ -177,7 +159,6 @@
 			children = (
 				B596706B28D0FAD000CFA138 /* EssentialApp.app */,
 				B596708628D0FAEF00CFA138 /* EssentialAppTests.xctest */,
-				B5E0982F28DA4B00005DBD2F /* EssentialAppUIAcceptanceTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -261,14 +242,6 @@
 			path = Composers;
 			sourceTree = "<group>";
 		};
-		B5E0983028DA4B00005DBD2F /* EssentialAppUIAcceptanceTests */ = {
-			isa = PBXGroup;
-			children = (
-				B5E0983128DA4B00005DBD2F /* EssentialAppUIAcceptanceTests.swift */,
-			);
-			path = EssentialAppUIAcceptanceTests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -308,24 +281,6 @@
 			productReference = B596708628D0FAEF00CFA138 /* EssentialAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		B5E0982E28DA4B00005DBD2F /* EssentialAppUIAcceptanceTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B5E0983928DA4B00005DBD2F /* Build configuration list for PBXNativeTarget "EssentialAppUIAcceptanceTests" */;
-			buildPhases = (
-				B5E0982B28DA4B00005DBD2F /* Sources */,
-				B5E0982C28DA4B00005DBD2F /* Frameworks */,
-				B5E0982D28DA4B00005DBD2F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B5E0983628DA4B00005DBD2F /* PBXTargetDependency */,
-			);
-			name = EssentialAppUIAcceptanceTests;
-			productName = EssentialAppUIAcceptanceTests;
-			productReference = B5E0982F28DA4B00005DBD2F /* EssentialAppUIAcceptanceTests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -342,10 +297,6 @@
 					B596708528D0FAEF00CFA138 = {
 						CreatedOnToolsVersion = 13.4.1;
 						LastSwiftMigration = 1400;
-						TestTargetID = B596706A28D0FAD000CFA138;
-					};
-					B5E0982E28DA4B00005DBD2F = {
-						CreatedOnToolsVersion = 14.0;
 						TestTargetID = B596706A28D0FAD000CFA138;
 					};
 				};
@@ -365,7 +316,6 @@
 			targets = (
 				B596706A28D0FAD000CFA138 /* EssentialApp */,
 				B596708528D0FAEF00CFA138 /* EssentialAppTests */,
-				B5E0982E28DA4B00005DBD2F /* EssentialAppUIAcceptanceTests */,
 			);
 		};
 /* End PBXProject section */
@@ -382,13 +332,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B596708428D0FAEF00CFA138 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B5E0982D28DA4B00005DBD2F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -448,14 +391,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B5E0982B28DA4B00005DBD2F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B5E0983228DA4B00005DBD2F /* EssentialAppUIAcceptanceTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -463,11 +398,6 @@
 			isa = PBXTargetDependency;
 			target = B596706A28D0FAD000CFA138 /* EssentialApp */;
 			targetProxy = B596708A28D0FAEF00CFA138 /* PBXContainerItemProxy */;
-		};
-		B5E0983628DA4B00005DBD2F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B596706A28D0FAD000CFA138 /* EssentialApp */;
-			targetProxy = B5E0983528DA4B00005DBD2F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -710,44 +640,6 @@
 			};
 			name = Release;
 		};
-		B5E0983728DA4B00005DBD2F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GK4GDX3M3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mif50.EssentialAppUIAcceptanceTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = EssentialApp;
-			};
-			name = Debug;
-		};
-		B5E0983828DA4B00005DBD2F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = GK4GDX3M3T;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mif50.EssentialAppUIAcceptanceTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = EssentialApp;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -774,15 +666,6 @@
 			buildConfigurations = (
 				B596708D28D0FAEF00CFA138 /* Debug */,
 				B596708E28D0FAEF00CFA138 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B5E0983928DA4B00005DBD2F /* Build configuration list for PBXNativeTarget "EssentialAppUIAcceptanceTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B5E0983728DA4B00005DBD2F /* Debug */,
-				B5E0983828DA4B00005DBD2F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
