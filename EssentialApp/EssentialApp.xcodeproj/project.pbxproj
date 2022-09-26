@@ -49,6 +49,7 @@
 		B5C8125128DEC7E300A79A4A /* FeedViewController+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C8124828DEC7E300A79A4A /* FeedViewController+TestHelpers.swift */; };
 		B5C8125528DEC82600A79A4A /* FeedUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C8125428DEC82600A79A4A /* FeedUIIntegrationTests.swift */; };
 		B5F7C42728D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F7C42628D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift */; };
+		B5F85D9628E15D3A0017D9B9 /* HTTPClientStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F85D9528E15D3A0017D9B9 /* HTTPClientStub.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +121,7 @@
 		B5C8124828DEC7E300A79A4A /* FeedViewController+TestHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeedViewController+TestHelpers.swift"; sourceTree = "<group>"; };
 		B5C8125428DEC82600A79A4A /* FeedUIIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedUIIntegrationTests.swift; sourceTree = "<group>"; };
 		B5F7C42628D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoaderWithFallbackCompositeTests.swift; sourceTree = "<group>"; };
+		B5F85D9528E15D3A0017D9B9 /* HTTPClientStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientStub.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +224,7 @@
 				B5B34D5C28D45D6B0095DC6B /* SharedTestHelpers.swift */,
 				B5B0D4C428D5DA21003C57FE /* FeedLoaderStub.swift */,
 				B54F602128D7B1B400E0560F /* FeedImageLoaderSpy.swift */,
+				B5F85D9528E15D3A0017D9B9 /* HTTPClientStub.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				B5B0D4C328D5D200003C57FE /* FeedLoaderCacheDecoratorTests.swift in Sources */,
 				B5B34D5628D39BE10095DC6B /* FeedImageDataLoaderWithFallbackCompositeTests.swift in Sources */,
 				B5C8124A28DEC7E300A79A4A /* FeedImageCell+TestHelpers.swift in Sources */,
+				B5F85D9628E15D3A0017D9B9 /* HTTPClientStub.swift in Sources */,
 				B5F7C42728D26DE200E05871 /* FeedLoaderWithFallbackCompositeTests.swift in Sources */,
 				B5C8124F28DEC7E300A79A4A /* UIRefreshControl+TestHelpers.swift in Sources */,
 				B5B0D4C528D5DA21003C57FE /* FeedLoaderStub.swift in Sources */,
