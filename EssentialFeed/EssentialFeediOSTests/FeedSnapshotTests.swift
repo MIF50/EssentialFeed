@@ -35,6 +35,14 @@ class FeedSnapshotTests: XCTestCase {
         record(snapshot: sut.snapshot(), named: "FEED_WITH_ERROR_MESSAGE")
     }
     
+    func test_feedWithFailedImageLoading() {
+        let sut = makeSUT()
+        
+        sut.display(feedWithFailedImageLoading())
+        
+        record(snapshot: sut.snapshot(), named: "FEED_WITH_FAILED_IMAGE_LOADING")
+    }
+    
     //MARK: - Helpers
     
     private func makeSUT(
@@ -59,6 +67,21 @@ class FeedSnapshotTests: XCTestCase {
                 description: "Garth Pier is a Grade II listed structure in Bangor, Gwynedd, North Wales.",
                 location: "Garth Pier",
                 image: UIImage.make(withColor: .green)
+            )
+        ]
+    }
+    
+    private func feedWithFailedImageLoading() -> [ImageStub] {
+        [
+            ImageStub(
+                description: nil,
+                location: "East Side Gallery\nMemorial in Berlin, Germany",
+                image: nil
+            ),
+            ImageStub(
+                description: "Garth Pier is a Grade II listed structure in Bangor, Gwynedd, North Wales.",
+                location: nil,
+                image: nil
             )
         ]
     }
@@ -108,7 +131,7 @@ private class ImageStub: FeedImageCellControllerDelegate {
             location: location,
             image: image,
             isLoading: false,
-            shouldRetry: false
+            shouldRetry: image == nil
         )
     }
     
