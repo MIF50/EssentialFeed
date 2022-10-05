@@ -42,22 +42,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         configureWindow()
     }
     
-    func configureWindow() {        
-        let remoteImageLoader = RemoteFeedImageDataLoader(client: httpClient)
-        
-        let localImageLoader = LocalFeedImageDataLoader(store: store)
-        
-        let imageLoader = FeedImageDataLoaderWithFallbackComposite(
-            primary: localImageLoader,
-            fallback: FeedImageDataLoaderCacheDecorator(decoratee: remoteImageLoader,cache: localImageLoader)
+    func configureWindow() {
+        let feedViewcontroller = FeedUIComposer.feedComposeWith(
+            feedLoader: makeRemoteFeedLoaderWithLocalFallback,
+            imageLoader: makeLocalImageLoaderWithRemoteFallback(for:)
         )
-        
-        let feedViewcontroller = FeedUIComposer.feedComposeWith(feedLoader: makeRemoteFeedLoaderWithLocalFallback,imageLoader: imageLoader)
         window?.rootViewController = UINavigationController(rootViewController: feedViewcontroller)
         window?.makeKeyAndVisible()
     }
     
-    func makeRemoteFeedLoaderWithLocalFallback() -> FeedLoader.Publisher {
+    private func makeRemoteFeedLoaderWithLocalFallback() -> FeedLoader.Publisher {
         let url = URL(string: "https://ile-api.essentialdeveloper.com/essential-feed/feed")!
         let remoteFeedLoader = RemoteFeedLoader(url: url, client: httpClient)
         return remoteFeedLoader
@@ -66,8 +60,49 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .fallback(to: localFeedLoader.loadPublisher)
     }
     
+    private func makeLocalImageLoaderWithRemoteFallback(for url: URL) -> FeedImageDataLoader.Publisher {
+        let remoteImageLoader = RemoteFeedImageDataLoader(client: httpClient)
+        let localImageLoader = LocalFeedImageDataLoader(store: store)
+        
+        return localImageLoader.loadImageDataPublisher(from: url)
+            .fallback(to: {
+                remoteImageLoader.loadImageDataPublisher(from: url)
+                    .caching(to: localImageLoader, using: url)
+            }).eraseToAnyPublisher()
+    }
+    
     func sceneWillResignActive(_ scene: UIScene) {
         localFeedLoader.validateCache { _ in }
+    }
+}
+
+public extension FeedImageDataLoader {
+    typealias Publisher = AnyPublisher<Data,Error>
+    
+    func loadImageDataPublisher(from url: URL) -> Publisher {
+        var task: FeedImageDataLoaderTask?
+        return Deferred {
+            Future { completion in
+                task = self.loadImageData(from: url, completion: completion)
+            }
+        }
+        .handleEvents(receiveCancel: { task?.cancel() })
+        .eraseToAnyPublisher()
+    }
+}
+
+extension Publisher where Output == Data {
+    func caching(to cache: FeedImageDataCache,using url: URL) -> AnyPublisher<Output,Failure> {
+        handleEvents(receiveOutput: { data in
+            cache.saveIgnoringResult(data, for: url)
+        }).eraseToAnyPublisher()
+    }
+}
+
+private extension FeedImageDataCache {
+    
+    func saveIgnoringResult(_ data: Data,for url: URL) {
+        save(data, for: url) { _ in }
     }
 }
 
