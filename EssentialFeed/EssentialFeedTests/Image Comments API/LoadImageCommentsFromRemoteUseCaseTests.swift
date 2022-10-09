@@ -10,40 +10,6 @@ import EssentialFeed
 
 class LoadImageCommentsFromRemoteUseCaseTests: XCTestCase {
     
-    func test_init_doesNotRequestDataFromURL() {
-        let (_, client) = makeSUT()
-        
-        XCTAssertTrue(client.requestedURLs.isEmpty)
-    }
-    
-    func test_load_requestsDataFromURL() {
-        let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = makeSUT(url: url)
-        
-        sut.load { _ in }
-        
-        XCTAssertEqual(client.requestedURLs,[url])
-    }
-    
-    func test_loadTwice_requestsDataFromURLTwice() {
-        let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = makeSUT(url: url)
-        
-        sut.load { _ in }
-        sut.load { _ in }
-
-        XCTAssertEqual(client.requestedURLs,[url,url])
-    }
-    
-    func test_load_deliversErrorOnClientError() {
-        let (sut, client) = makeSUT()
-        
-        expect(sut, toCompleteWith: failure(.connectivity), when: {
-            let clientError = NSError(domain: "an error", code: 0)
-            client.complete(with: clientError)
-        })
-    }
-    
     func test_load_deliversErrorOnNon2xxHTTPResponse() {
         let (sut, client) = makeSUT()
         
@@ -104,25 +70,13 @@ class LoadImageCommentsFromRemoteUseCaseTests: XCTestCase {
         }
     }
     
-    func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
-        let url = URL(string: "https://a-url.com")!
-        let client = HTTPClientSpy()
-        var sut: RemoteImageCommentsLoader? = RemoteImageCommentsLoader(url: url, client: client)
-        
-        var capturedResults = [RemoteImageCommentsLoader.Result]()
-        sut?.load(completion: {  capturedResults.append($0)})
-        
-        sut = nil
-        client.complete(withStatusCode: 200, data: makeItemJSON([]))
-        
-        XCTAssertTrue(capturedResults.isEmpty,"Expected no caputured result after sut instance has been deallocated")
-    }
-    
     // MARK: - Helper
     
-    private func makeSUT(url: URL = URL(string: "https://a-url.com")!,
-                         file: StaticString = #file,
-                         line: UInt = #line)-> (sut: RemoteImageCommentsLoader,client: HTTPClientSpy) {
+    private func makeSUT(
+        url: URL = URL(string: "https://a-url.com")!,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (sut: RemoteImageCommentsLoader,client: HTTPClientSpy) {
         let client = HTTPClientSpy()
         let sut = RemoteImageCommentsLoader(url: url, client: client)
         
@@ -136,11 +90,13 @@ class LoadImageCommentsFromRemoteUseCaseTests: XCTestCase {
         return .failure(error)
     }
     
-    private func expect(_ sut: RemoteImageCommentsLoader,
-                        toCompleteWith expectedResult: RemoteImageCommentsLoader.Result,
-                        when action: (()-> Void),
-                        file: StaticString = #file,
-                        line: UInt = #line) {
+    private func expect(
+        _ sut: RemoteImageCommentsLoader,
+        toCompleteWith expectedResult: RemoteImageCommentsLoader.Result,
+        when action: (()-> Void),
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
         
         let exp = expectation(description: "Wait for load completion")
         
