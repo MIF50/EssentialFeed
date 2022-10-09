@@ -10,40 +10,6 @@ import EssentialFeed
 
 class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     
-    func test_init_doesNotRequestDataFromURL() {
-        let (_, client) = makeSUT()
-        
-        XCTAssertTrue(client.requestedURLs.isEmpty)
-    }
-    
-    func test_load_requestsDataFromURL() {
-        let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = makeSUT(url: url)
-        
-        sut.load { _ in }
-        
-        XCTAssertEqual(client.requestedURLs,[url])
-    }
-    
-    func test_loadTwice_requestsDataFromURLTwice() {
-        let url = URL(string: "https://a-given-url.com")!
-        let (sut, client) = makeSUT(url: url)
-        
-        sut.load { _ in }
-        sut.load { _ in }
-
-        XCTAssertEqual(client.requestedURLs,[url,url])
-    }
-    
-    func test_load_deliversErrorOnClientError() {
-        let (sut, client) = makeSUT()
-        
-        expect(sut, toCompleteWith: failure(.connectivity), when: {
-            let clientError = NSError(domain: "an error", code: 0)
-            client.complete(with: clientError)
-        })
-    }
-    
     func test_load_deliversErrorOnNon200HTTPResponse() {
         let (sut, client) = makeSUT()
         
@@ -93,25 +59,13 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
         })
     }
     
-    func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
-        let url = URL(string: "https://a-url.com")!
-        let client = HTTPClientSpy()
-        var sut: RemoteFeedLoader? = RemoteFeedLoader(url: url, client: client)
-        
-        var capturedResults = [RemoteFeedLoader.Result]()
-        sut?.load(completion: {  capturedResults.append($0)})
-        
-        sut = nil
-        client.complete(withStatusCode: 200, data: makeItemJSON([]))
-        
-        XCTAssertTrue(capturedResults.isEmpty,"Expected no caputured result after sut instance has been deallocated")
-    }
-    
     // MARK: - Helper
     
-    private func makeSUT(url: URL = URL(string: "https://a-url.com")!,
-                         file: StaticString = #file,
-                         line: UInt = #line)-> (sut: RemoteFeedLoader,client: HTTPClientSpy) {
+    private func makeSUT(
+        url: URL = URL(string: "https://a-url.com")!,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (sut: RemoteFeedLoader,client: HTTPClientSpy) {
         let client = HTTPClientSpy()
         let sut = RemoteFeedLoader(url: url, client: client)
         
@@ -125,11 +79,13 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
         return .failure(error)
     }
     
-    private func expect(_ sut: RemoteFeedLoader,
-                        toCompleteWith expectedResult: RemoteFeedLoader.Result,
-                        when action: (()-> Void),
-                        file: StaticString = #file,
-                        line: UInt = #line) {
+    private func expect(
+        _ sut: RemoteFeedLoader,
+        toCompleteWith expectedResult: RemoteFeedLoader.Result,
+        when action: (()-> Void),
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
         
         let exp = expectation(description: "Wait for load completion")
         
@@ -152,14 +108,16 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    private func makeItem(id: UUID,
-                          description: String? = nil,
-                          location: String? = nil,
-                          imageURL: URL)-> (model: FeedImage,json: [String: Any]) {
+    private func makeItem(
+        id: UUID,
+        description: String? = nil,
+        location: String? = nil,
+        imageURL: URL
+    ) -> (model: FeedImage,json: [String: Any]) {
         let item = FeedImage(id: id,
-                            description: description,
-                            location: location,
-                            url: imageURL)
+                             description: description,
+                             location: location,
+                             url: imageURL)
         
         let json = [
             "id": id.uuidString,
