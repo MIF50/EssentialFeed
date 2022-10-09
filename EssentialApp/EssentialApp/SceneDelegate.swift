@@ -75,3 +75,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         localFeedLoader.validateCache { _ in }
     }
 }
+
+extension RemoteFeedLoader: FeedLoader where Resource == [FeedImage] {}
