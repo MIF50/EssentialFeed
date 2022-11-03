@@ -8,10 +8,11 @@
 import Foundation
 
 public protocol ResourceView {
-    func display(_ viewModel: String)
+    associatedtype ResouceViewModel
+    func display(_ viewModel: ResouceViewModel)
 }
 
-public class LoadResourcePresenter {
+public class LoadResourcePresenter<Resource,View: ResourceView> {
     
     private var feedErrorMessage: String {
         NSLocalizedString(
@@ -21,14 +22,15 @@ public class LoadResourcePresenter {
             comment: "Error message displayed when we can't load the image feed from the server"
         )
     }
-    public typealias Mapper = (String) -> String
     
-    private let resouceView: ResourceView
+    public typealias Mapper = (Resource) -> View.ResouceViewModel
+    
+    private let resouceView: View
     private let loadingView: FeedLoadingView
     private let errorView: FeedErrorView
     private let mapper: Mapper
 
-    public init(resouceView: ResourceView,loadingView: FeedLoadingView,errorView: FeedErrorView,mapper: @escaping Mapper) {
+    public init(resouceView: View,loadingView: FeedLoadingView,errorView: FeedErrorView,mapper: @escaping Mapper) {
         self.resouceView = resouceView
         self.loadingView = loadingView
         self.errorView = errorView
@@ -40,7 +42,7 @@ public class LoadResourcePresenter {
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
-    public func didFinishLoading(with resource: String) {
+    public func didFinishLoading(with resource: Resource) {
         resouceView.display(mapper(resource))
         loadingView.display(FeedLoadingViewModel(isLoading: false))
     }

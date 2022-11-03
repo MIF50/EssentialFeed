@@ -53,13 +53,15 @@ public class LoadResourcePresenterTests: XCTestCase {
     
     //MARK: - helper
     
+    private typealias SUT = LoadResourcePresenter<String,ViewSpy>
+    
     private func makeSUT(
-        mapper: @escaping LoadResourcePresenter.Mapper = { _ in "any" },
+        mapper: @escaping SUT.Mapper = { _ in "any" },
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (sut: LoadResourcePresenter,view: ViewSpy) {
+    ) -> (sut: SUT,view: ViewSpy) {
         let view = ViewSpy()
-        let sut = LoadResourcePresenter(resouceView: view,loadingView: view,errorView: view,mapper: mapper)
+        let sut = SUT(resouceView: view,loadingView: view,errorView: view,mapper: mapper)
         trackForMemoryLeaks(view,file: file,line: line)
         trackForMemoryLeaks(sut,file: file,line: line)
         return (sut,view)
@@ -71,7 +73,7 @@ public class LoadResourcePresenterTests: XCTestCase {
         line: UInt = #line
     ) -> String {
         let table = "Feed"
-        let bundle = Bundle(for: LoadResourcePresenter.self)
+        let bundle = Bundle(for: SUT.self)
         let value = bundle.localizedString(forKey: key, value: nil, table: table)
         if value == key {
             XCTFail("Missing localized string for key: \(key) in table: \(table)", file: file, line: line)
@@ -80,6 +82,8 @@ public class LoadResourcePresenterTests: XCTestCase {
     }
     
     private class ViewSpy: ResourceView, FeedLoadingView,FeedErrorView {
+        
+        typealias ResouceViewModel = String
         
         enum Message: Hashable {
             case display(isLoading: Bool)
