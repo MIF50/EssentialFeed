@@ -9,7 +9,7 @@ import UIKit
 import EssentialFeed
 import EssentialFeediOS
 
-final class FeedViewAdapter: FeedView {
+final class FeedViewAdapter: ResourceView {
     
     private typealias FeedImagePresentationAdapter = FeedImageDataLoaderPresentationAdapter<WeakRefVirtualProxy<FeedImageCellController>,UIImage>
     
