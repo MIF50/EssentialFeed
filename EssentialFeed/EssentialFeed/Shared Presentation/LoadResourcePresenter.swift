@@ -26,11 +26,11 @@ public class LoadResourcePresenter<Resource,View: ResourceView> {
     public typealias Mapper = (Resource) -> View.ResouceViewModel
     
     private let resouceView: View
-    private let loadingView: FeedLoadingView
+    private let loadingView: ResourceLoadingView
     private let errorView: FeedErrorView
     private let mapper: Mapper
 
-    public init(resouceView: View,loadingView: FeedLoadingView,errorView: FeedErrorView,mapper: @escaping Mapper) {
+    public init(resouceView: View,loadingView: ResourceLoadingView,errorView: FeedErrorView,mapper: @escaping Mapper) {
         self.resouceView = resouceView
         self.loadingView = loadingView
         self.errorView = errorView
@@ -39,16 +39,16 @@ public class LoadResourcePresenter<Resource,View: ResourceView> {
     
     public func didStartLoading() {
         errorView.display(.noError)
-        loadingView.display(FeedLoadingViewModel(isLoading: true))
+        loadingView.display(ResourceLoadingViewModel(isLoading: true))
     }
     
     public func didFinishLoading(with resource: Resource) {
         resouceView.display(mapper(resource))
-        loadingView.display(FeedLoadingViewModel(isLoading: false))
+        loadingView.display(ResourceLoadingViewModel(isLoading: false))
     }
     
     public func didFinishLoadingFeed(with error: Error) {
-        loadingView.display(FeedLoadingViewModel(isLoading: false))
+        loadingView.display(ResourceLoadingViewModel(isLoading: false))
         errorView.display(.error(messsage: Self.loadError))
     }
 }
