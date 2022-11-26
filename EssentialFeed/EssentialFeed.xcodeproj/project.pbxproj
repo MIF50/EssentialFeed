@@ -464,10 +464,18 @@
 			isa = PBXGroup;
 			children = (
 				B5DCA9E928E2AE7E0014D3A6 /* Helpers */,
+				B52820A82932242000F04859 /* Feed UI */,
+			);
+			path = EssentialFeediOSTests;
+			sourceTree = "<group>";
+		};
+		B52820A82932242000F04859 /* Feed UI */ = {
+			isa = PBXGroup;
+			children = (
 				B5DCA9E628E2AA440014D3A6 /* snapshots */,
 				B5DCA9E428E2A5980014D3A6 /* FeedSnapshotTests.swift */,
 			);
-			path = EssentialFeediOSTests;
+			path = "Feed UI";
 			sourceTree = "<group>";
 		};
 		B52896C727F8FE2B00CB9D54 /* Infrastructure */ = {
