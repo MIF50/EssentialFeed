@@ -455,6 +455,7 @@
 		B525B0042814420D00C69682 /* EssentialFeediOS */ = {
 			isa = PBXGroup;
 			children = (
+				B52820B62933C71B00F04859 /* Shared UI */,
 				B5819ABD28567F69005FB1D6 /* Feed UI */,
 			);
 			path = EssentialFeediOS;
@@ -476,6 +477,42 @@
 				B5DCA9E428E2A5980014D3A6 /* FeedSnapshotTests.swift */,
 			);
 			path = "Feed UI";
+			sourceTree = "<group>";
+		};
+		B52820B62933C71B00F04859 /* Shared UI */ = {
+			isa = PBXGroup;
+			children = (
+				B52820B72933C72500F04859 /* Controllers */,
+				B52820B82933C73500F04859 /* Views */,
+			);
+			path = "Shared UI";
+			sourceTree = "<group>";
+		};
+		B52820B72933C72500F04859 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B548941128217CF700722BFE /* ListViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B52820B82933C73500F04859 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B52820B92933C74E00F04859 /* Helpers */,
+				B5151EF328BDB8CF00F0ABCC /* ErrorView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B52820B92933C74E00F04859 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B5D99A1F28B5C74800508D48 /* UITableView+Dequeueing.swift */,
+				B58C9FA428E3F6B2001044E6 /* UITableView+HeaderSizing.swift */,
+				B5A6147728BE84C600F4BB16 /* UIRefreshControl+Helpers.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		B52896C727F8FE2B00CB9D54 /* Infrastructure */ = {
@@ -639,7 +676,6 @@
 		B5819AB328567D59005FB1D6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B548941128217CF700722BFE /* ListViewController.swift */,
 				B5819AC42856887C005FB1D6 /* FeedImageCellController.swift */,
 			);
 			path = Controllers;
@@ -649,7 +685,6 @@
 			isa = PBXGroup;
 			children = (
 				B5A6147428BE83DC00F4BB16 /* Helpers */,
-				B5151EF328BDB8CF00F0ABCC /* ErrorView.swift */,
 				B54894132822981900722BFE /* FeedImageCell.swift */,
 				B52A263B28B109C700A08697 /* Feed.storyboard */,
 				B52A263D28B10A5600A08697 /* Feed.xcassets */,
@@ -680,10 +715,7 @@
 			isa = PBXGroup;
 			children = (
 				B54894152823BABB00722BFE /* UIView+Shimmering.swift */,
-				B5D99A1F28B5C74800508D48 /* UITableView+Dequeueing.swift */,
 				B5D99A2128B5C8B700508D48 /* UIImageView+Animations.swift */,
-				B5A6147728BE84C600F4BB16 /* UIRefreshControl+Helpers.swift */,
-				B58C9FA428E3F6B2001044E6 /* UITableView+HeaderSizing.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
