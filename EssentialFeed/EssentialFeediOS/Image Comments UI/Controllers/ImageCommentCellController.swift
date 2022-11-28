@@ -7,7 +7,8 @@
 
 import UIKit
 import EssentialFeed
-public final class ImageCommentCellController: CellController {
+
+final public class ImageCommentCellController: CellController {
     
     private let model: ImageCommentViewModel
     
@@ -21,13 +22,5 @@ public final class ImageCommentCellController: CellController {
         cell.dateLabel.text = model.date
         cell.messageLabel.text = model.message
         return cell
-    }
-    
-    public func preload() {
-        
-    }
-    
-    public func cancelLoad() {
-        
     }
 }
