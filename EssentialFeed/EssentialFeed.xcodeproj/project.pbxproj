@@ -108,6 +108,7 @@
 		B5C15AA828C92079002AD677 /* HTTPClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C15AA728C92079002AD677 /* HTTPClientSpy.swift */; };
 		B5C15AAF28C99D85002AD677 /* HTTPURLResponse+StatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C15AAE28C99D85002AD677 /* HTTPURLResponse+StatusCode.swift */; };
 		B5C15AB128C99DF2002AD677 /* URLProtocolStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C15AB028C99DF2002AD677 /* URLProtocolStub.swift */; };
+		B5CC2D792939E3790078658E /* CellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CC2D782939E3790078658E /* CellController.swift */; };
 		B5D99A2028B5C74800508D48 /* UITableView+Dequeueing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D99A1F28B5C74800508D48 /* UITableView+Dequeueing.swift */; };
 		B5D99A2228B5C8B700508D48 /* UIImageView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D99A2128B5C8B700508D48 /* UIImageView+Animations.swift */; };
 		B5DCA9E528E2A5980014D3A6 /* FeedSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DCA9E428E2A5980014D3A6 /* FeedSnapshotTests.swift */; };
@@ -273,6 +274,7 @@
 		B5C15AA728C92079002AD677 /* HTTPClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientSpy.swift; sourceTree = "<group>"; };
 		B5C15AAE28C99D85002AD677 /* HTTPURLResponse+StatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HTTPURLResponse+StatusCode.swift"; sourceTree = "<group>"; };
 		B5C15AB028C99DF2002AD677 /* URLProtocolStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolStub.swift; sourceTree = "<group>"; };
+		B5CC2D782939E3790078658E /* CellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellController.swift; sourceTree = "<group>"; };
 		B5D99A1F28B5C74800508D48 /* UITableView+Dequeueing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Dequeueing.swift"; sourceTree = "<group>"; };
 		B5D99A2128B5C8B700508D48 /* UIImageView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Animations.swift"; sourceTree = "<group>"; };
 		B5DCA9E428E2A5980014D3A6 /* FeedSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSnapshotTests.swift; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 			isa = PBXGroup;
 			children = (
 				B548941128217CF700722BFE /* ListViewController.swift */,
+				B5CC2D782939E3790078658E /* CellController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1224,6 +1227,7 @@
 				B58C9FA528E3F6B2001044E6 /* UITableView+HeaderSizing.swift in Sources */,
 				B5151EF428BDB8CF00F0ABCC /* ErrorView.swift in Sources */,
 				B5A6147828BE84C600F4BB16 /* UIRefreshControl+Helpers.swift in Sources */,
+				B5CC2D792939E3790078658E /* CellController.swift in Sources */,
 				B5D99A2028B5C74800508D48 /* UITableView+Dequeueing.swift in Sources */,
 				B54894162823BABB00722BFE /* UIView+Shimmering.swift in Sources */,
 				B5D99A2228B5C8B700508D48 /* UIImageView+Animations.swift in Sources */,

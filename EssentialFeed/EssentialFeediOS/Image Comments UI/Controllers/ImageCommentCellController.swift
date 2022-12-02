@@ -8,7 +8,7 @@
 import UIKit
 import EssentialFeed
 
-final public class ImageCommentCellController: NSObject, CellController {
+final public class ImageCommentCellController: NSObject, UITableViewDataSource {
    
     private let model: ImageCommentViewModel
     
@@ -26,7 +26,5 @@ final public class ImageCommentCellController: NSObject, CellController {
         cell.dateLabel.text = model.date
         cell.messageLabel.text = model.message
         return cell
-    }
-    
-    public func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {}
+    }    
 }

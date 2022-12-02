@@ -102,10 +102,10 @@ private class ImageStub: FeedImageCellControllerDelegate {
 
 private extension ListViewController {
     func display(_ stubs: [ImageStub]) {
-        let cells: [FeedImageCellController] = stubs.map { stub in
+        let cells: [CellController] = stubs.map { stub in
             let cellController: FeedImageCellController = FeedImageCellController(viewModel: stub.viewModel,delegate: stub)
             stub.controller = cellController
-            return cellController
+            return CellController(cellController)
         }
         
         display(cells)
