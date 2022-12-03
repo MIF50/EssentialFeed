@@ -15,7 +15,11 @@ extension ListViewController {
     }
     
     var errorMessage: String? {
-        errorView?.message
+        errorView.message
+    }
+    
+    func simulateErrorViewTap() {
+        errorView.simulateTap()
     }
     
     func simulateUserInitiatedFeedReload() {
