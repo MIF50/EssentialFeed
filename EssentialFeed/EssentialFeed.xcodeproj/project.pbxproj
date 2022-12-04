@@ -481,8 +481,8 @@
 		B525B00E2814420D00C69682 /* EssentialFeediOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				B52820BA2933C8BD00F04859 /* Shared UI */,
 				B5DCA9E928E2AE7E0014D3A6 /* Helpers */,
+				B52820BA2933C8BD00F04859 /* Shared UI */,
 				B52820A82932242000F04859 /* Feed UI */,
 				B52820BF2933CF7600F04859 /* Image Comments UI */,
 			);
