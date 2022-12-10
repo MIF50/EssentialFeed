@@ -12,13 +12,14 @@ extension UIView {
     func makeContainer() -> UIView {
         let container = UIView()
         container.backgroundColor = .red
-        container.translatesAutoresizingMaskIntoConstraints = false
-        
+        container.addSubview(self)
+
+        self.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: container.topAnchor),
-            leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            trailingAnchor.constraint(equalTo: container.trailingAnchor),
-            bottomAnchor.constraint(equalTo: container.bottomAnchor)
+            self.topAnchor.constraint(equalTo: container.topAnchor),
+            self.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            self.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+            self.bottomAnchor.constraint(equalTo: container.bottomAnchor)
         ])
         
         return container
