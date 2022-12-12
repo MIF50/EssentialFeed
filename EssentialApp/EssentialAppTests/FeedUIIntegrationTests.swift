@@ -10,7 +10,7 @@ import EssentialFeediOS
 import EssentialFeed
 import EssentialApp
 
-final class FeedUIIntegrationTests: XCTestCase {
+class FeedUIIntegrationTests: XCTestCase {
     
     func test_feedView_hasTitle() {
         let (sut,_) = makeSUT()
@@ -97,15 +97,13 @@ final class FeedUIIntegrationTests: XCTestCase {
         assertThat(sut, isRendering: [image0])
     }
     
-    func test_loadImageDataCompletion_dispatchesFromBackgroundToMainThread() {
-        let (sut, loader) = makeSUT()
+    func test_loadFeedCompletion_dispatchesFromBackgroundToMainThread() {
+        let (sut,loader) = makeSUT()
         sut.loadViewIfNeeded()
-        loader.completeFeedLoading(with: [makeImage()],at: 0)
-        _ = sut.simulateFeedImageViewVisible(at: 0)
         
-        let exp = expectation(description: "waiting for background")
+        let exp = expectation(description: "Waiting for background ")
         DispatchQueue.global().async {
-            loader.completeImageLoading(with: self.anyImageData(), at: 0)
+            loader.completeFeedLoading(with: [], at: 0)
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)
@@ -316,13 +314,15 @@ final class FeedUIIntegrationTests: XCTestCase {
         XCTAssertNil(view?.renderedImage,"Expected no rendered image when an image load finishes after the view is not visible anymore")
     }
     
-    func test_loadFeedCompletion_dispatchesFromBackgroundToMainThread() {
-        let (sut,loader) = makeSUT()
+    func test_loadImageDataCompletion_dispatchesFromBackgroundToMainThread() {
+        let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
+        loader.completeFeedLoading(with: [makeImage()],at: 0)
+        _ = sut.simulateFeedImageViewVisible(at: 0)
         
-        let exp = expectation(description: "Waiting for background ")
+        let exp = expectation(description: "waiting for background")
         DispatchQueue.global().async {
-            loader.completeFeedLoading(with: [], at: 0)
+            loader.completeImageLoading(with: self.anyImageData(), at: 0)
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)
