@@ -13,21 +13,21 @@ import Combine
 public final class CommentsUIComposer {
     private init() { }
     
-    private typealias FeedPresentationAdapter = LoadResourcePresentationAdapter<[FeedImage],FeedViewAdapter>
+    private typealias FeedPresentationAdapter = LoadResourcePresentationAdapter<[ImageComment],CommentsViewAdapter>
     
     public static func commentsComposedWith(
-        commentLoader: @escaping (() -> AnyPublisher<[FeedImage],Error>)
+        commentLoader: @escaping (() -> AnyPublisher<[ImageComment],Error>)
     ) -> ListViewController {
         let presentationAdapter = FeedPresentationAdapter(loader: commentLoader )
         let feedController = makeFeedViewController(title: ImageCommentsPresenter.title)
         feedController.onRefresh = presentationAdapter.loadResource
-        let feedView = FeedViewAdapter(controller: feedController,imageLoader: { _ in Empty<Data,Error>().eraseToAnyPublisher() })
+        let feedView = CommentsViewAdapter(controller: feedController)
         
         presentationAdapter.presenter = LoadResourcePresenter(
             resouceView: feedView,
             loadingView: WeakRefVirtualProxy(feedController),
             errorView: WeakRefVirtualProxy(feedController),
-            mapper: FeedPresenter.map
+            mapper: { ImageCommentsPresenter.map($0) }
         )
         return feedController
     }
@@ -38,5 +38,22 @@ public final class CommentsUIComposer {
         let feedController = storyboard.instantiateInitialViewController() as! ListViewController
         feedController.title = title
         return feedController
+    }
+}
+
+final class CommentsViewAdapter: ResourceView {
+        
+    private weak var controller: ListViewController?
+    
+    init(controller: ListViewController) {
+        self.controller = controller
+    }
+    
+    func display(_ viewModel: ImageCommentsViewModel) {
+        controller?.display(
+            viewModel.comments.map({ viewModel in
+                CellController(id: viewModel, UITableViewController())
+            })
+        )
     }
 }

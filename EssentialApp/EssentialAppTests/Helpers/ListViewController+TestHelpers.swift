@@ -31,6 +31,18 @@ extension ListViewController {
     func simulateUserInitiatedReload() {
         self.refreshControl?.simulatePullToRefresh()
     }
+}
+
+extension ListViewController {
+    
+    func numberOfRenderedComments()-> Int {
+        tableView.numberOfSections == 0 ? 0 : tableView.numberOfRows(inSection: commentsSection)
+    }
+    
+    private var commentsSection: Int { 0 }
+}
+
+extension ListViewController {
     
     @discardableResult
     func simulateFeedImageViewVisible(at row: Int)-> FeedImageCell? {
@@ -80,4 +92,3 @@ extension ListViewController {
     
     private var feedImagesSection: Int { 0 }
 }
-
