@@ -11,6 +11,10 @@ import EssentialFeed
 
 extension FeedUIIntegrationTests {
     
+    var commentsTitle: String {
+        ImageCommentsPresenter.title
+    }
+    
     var feedTitle: String {
         FeedPresenter.title
     }
