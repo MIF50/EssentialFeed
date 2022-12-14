@@ -164,6 +164,14 @@ final class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         guard sut.numberOfRenderedComments() == comments.count else {
             return XCTFail("Expected \(comments.count) comments, got \(sut.numberOfRenderedFeedImageViews()) instead.", file: file, line: line)
         }
+        
+        let viewModel = ImageCommentsPresenter.map(comments)
+        
+        viewModel.comments.enumerated().forEach { index, comment in
+            XCTAssertEqual(sut.commentMessage(at: index), comment.message,"message at \(index)",file: file,line: line)
+            XCTAssertEqual(sut.commentUsername(at: index), comment.username,"username at \(index)",file: file,line: line)
+            XCTAssertEqual(sut.commentDate(at: index), comment.date,"date at \(index)",file: file,line: line)
+        }
     }
     
     private class LoaderSpy {

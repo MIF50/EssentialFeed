@@ -34,7 +34,7 @@ public final class CommentsUIComposer {
     
     private static func makeFeedViewController(title: String) -> ListViewController {
         let bundle = Bundle(for: ListViewController.self)
-        let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
+        let storyboard = UIStoryboard(name: "ImageComments", bundle: bundle)
         let feedController = storyboard.instantiateInitialViewController() as! ListViewController
         feedController.title = title
         return feedController
@@ -52,7 +52,7 @@ final class CommentsViewAdapter: ResourceView {
     func display(_ viewModel: ImageCommentsViewModel) {
         controller?.display(
             viewModel.comments.map({ viewModel in
-                CellController(id: viewModel, UITableViewController())
+                CellController(id: viewModel, ImageCommentCellController(model: viewModel))
             })
         )
     }
