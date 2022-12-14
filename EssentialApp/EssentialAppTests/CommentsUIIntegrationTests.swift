@@ -82,6 +82,18 @@ final class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         assertThat(sut, isRendering: [ImageComment]())
     }
     
+    func test_loadCommentsCompletion_dispatchesFromBackgroundToMainThread() {
+        let (sut,loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let exp = expectation(description: "Waiting for background ")
+        DispatchQueue.global().async {
+            loader.completeCommentsLoading(with: [], at: 0)
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
+    
     override func test_loadFeedCompletion_doesNotAlertCurrentRenderingStateOnError() {
         let image0 = makeComment()
         let (sut, loader) = makeSUT()
@@ -93,18 +105,6 @@ final class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         sut.simulateUserInitiatedReload()
         loader.completeCommentsLoadingWithError(at: 1)
         assertThat(sut, isRendering: [image0])
-    }
-    
-    override func test_loadFeedCompletion_dispatchesFromBackgroundToMainThread() {
-        let (sut,loader) = makeSUT()
-        sut.loadViewIfNeeded()
-        
-        let exp = expectation(description: "Waiting for background ")
-        DispatchQueue.global().async {
-            loader.completeCommentsLoading(with: [], at: 0)
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
     }
     
     override func test_loadFeedCompletion_renderesErrorMessageOnErrorUntilNextReload() {
