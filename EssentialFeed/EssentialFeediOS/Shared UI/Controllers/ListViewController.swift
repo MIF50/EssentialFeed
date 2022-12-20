@@ -28,6 +28,8 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     }
     
     private func configureTableView() {
+        tableView.allowsSelection = true
+        
         dataSource.defaultRowAnimation = .fade
         tableView.dataSource = dataSource
         
