@@ -63,9 +63,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .tryMap(FeedItemsMapper.map)
             .caching(to: localFeedLoader)
             .fallback(to: localFeedLoader.loadPublisher)
-            .map {
-                Paginated(items: $0)
+            .map { items in
+                Paginated(items: items,loadMorePublisher: self.makeRemoteLoadMoreLoader(items: items,lastItem: items.last))
             }.eraseToAnyPublisher()
+    }
+    
+    private func makeRemoteLoadMoreLoader(items: [FeedImage],lastItem: FeedImage?) -> (() -> AnyPublisher<Paginated<FeedImage>,Error>)? {
+        lastItem.map({ lastItem in
+            let url = FeedEndpoint.get(after: lastItem).url(baseURL: baseURL)
+            return { [httpClient] in
+                httpClient
+                    .getPublisher(url: url)
+                    .tryMap(FeedItemsMapper.map)
+                    .map { newItems in
+                        let allItems = items + newItems
+                        return Paginated(items: allItems,loadMorePublisher:self.makeRemoteLoadMoreLoader(items: allItems,lastItem: newItems.last))
+                    }.eraseToAnyPublisher()
+            }
+        })
     }
     
     private func showComments(for image: FeedImage) {
