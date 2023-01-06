@@ -25,6 +25,7 @@
 		B5A8E85B2947DA2500D6E86B /* CommentsUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A8E85A2947DA2500D6E86B /* CommentsUIComposer.swift */; };
 		B5B34D5B28D45CF70095DC6B /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B34D5A28D45CF70095DC6B /* XCTestCase+MemoryLeakTracking.swift */; };
 		B5B34D5D28D45D6B0095DC6B /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B34D5C28D45D6B0095DC6B /* SharedTestHelpers.swift */; };
+		B5BDE5C7296803D200FE726C /* NullStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BDE5C6296803D200FE726C /* NullStore.swift */; };
 		B5C811D928DEC15C00A79A4A /* SceneDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C811D828DEC15C00A79A4A /* SceneDelegateTests.swift */; };
 		B5C8123A28DEC7A200A79A4A /* WeakRefVirtualProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C8123428DEC7A200A79A4A /* WeakRefVirtualProxy.swift */; };
 		B5C8123B28DEC7A200A79A4A /* FeedUIComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C8123528DEC7A200A79A4A /* FeedUIComposer.swift */; };
@@ -88,6 +89,7 @@
 		B5A8E85A2947DA2500D6E86B /* CommentsUIComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsUIComposer.swift; sourceTree = "<group>"; };
 		B5B34D5A28D45CF70095DC6B /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 		B5B34D5C28D45D6B0095DC6B /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
+		B5BDE5C6296803D200FE726C /* NullStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NullStore.swift; sourceTree = "<group>"; };
 		B5C811D828DEC15C00A79A4A /* SceneDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegateTests.swift; sourceTree = "<group>"; };
 		B5C8123428DEC7A200A79A4A /* WeakRefVirtualProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeakRefVirtualProxy.swift; sourceTree = "<group>"; };
 		B5C8123528DEC7A200A79A4A /* FeedUIComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedUIComposer.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				B596707928D0FAD100CFA138 /* LaunchScreen.storyboard */,
 				B596707C28D0FAD100CFA138 /* Info.plist */,
 				B56EA6EB28ED351C007E0600 /* CombineHelpers.swift */,
+				B5BDE5C6296803D200FE726C /* NullStore.swift */,
 			);
 			path = EssentialApp;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			files = (
 				B596707328D0FAD000CFA138 /* ViewController.swift in Sources */,
 				B596706F28D0FAD000CFA138 /* AppDelegate.swift in Sources */,
+				B5BDE5C7296803D200FE726C /* NullStore.swift in Sources */,
 				B56EA6EC28ED351C007E0600 /* CombineHelpers.swift in Sources */,
 				B5C8123A28DEC7A200A79A4A /* WeakRefVirtualProxy.swift in Sources */,
 				B5A8E85B2947DA2500D6E86B /* CommentsUIComposer.swift in Sources */,
