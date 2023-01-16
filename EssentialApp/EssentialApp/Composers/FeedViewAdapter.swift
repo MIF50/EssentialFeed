@@ -52,7 +52,7 @@ final class FeedViewAdapter: ResourceView {
             )
             
             adapter.presenter = LoadResourcePresenter(
-                resouceView: WeakRefVirtualProxy(view),
+                resourceView: WeakRefVirtualProxy(view),
                 loadingView: WeakRefVirtualProxy(view),
                 errorView: WeakRefVirtualProxy(view),
                 mapper: UIImage.tryMake)
@@ -71,7 +71,7 @@ final class FeedViewAdapter: ResourceView {
         let loadMore = LoadMoreCellController(callback: loadMoreAdapter.loadResource)
         let loadMoreResourceView = FeedViewAdapter(currentFeed: currentFeed, controller: controller, imageLoader: imageLoader, selection: selection)
         loadMoreAdapter.presenter = LoadResourcePresenter(
-            resouceView: loadMoreResourceView,
+            resourceView: loadMoreResourceView,
             loadingView: WeakRefVirtualProxy(loadMore),
             errorView: WeakRefVirtualProxy(loadMore),
             mapper: { $0 })
