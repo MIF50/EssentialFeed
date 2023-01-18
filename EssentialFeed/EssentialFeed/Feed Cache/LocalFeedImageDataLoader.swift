@@ -20,11 +20,9 @@ extension LocalFeedImageDataLoader: FeedImageDataCache {
     public typealias SaveResult = FeedImageDataCache.Result
     
     public func save(_ data: Data,for url: URL,completion: @escaping ((SaveResult) -> Void)) {
-        store.insert(data: data, for: url) { [weak self] result in
-            guard self != nil else { return }
-
-            completion(result.mapError { _ in SaveError.failed })
-        }
+        completion(SaveResult{
+            try store.insert(data: data, for: url)
+        }.mapError { _ in SaveError.failed })
     }
     
     public enum SaveError: Error {
