@@ -21,7 +21,7 @@ class CacheFeedImageDataUseCaseTests: XCTestCase {
         let url = URL(string: "http://a-url.com")!
         let data = anyData()
         
-        sut.save(data,for: url) { _ in }
+        try? sut.save(data,for: url)
         
         XCTAssertEqual(store.receivedMessages, [.insert(data: data,for: url)])
     }
@@ -58,32 +58,26 @@ class CacheFeedImageDataUseCaseTests: XCTestCase {
     
     private func expect(
         _ sut: LocalFeedImageDataLoader,
-        toCompleteWith expectedResult: LocalFeedImageDataLoader.SaveResult,
+        toCompleteWith expectedResult: Result<Void,Error>,
         when action: (() -> Void),
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        let exp = expectation(description: "Wait for completion")
-        
         action()
-
-        sut.save(anyData(), for: anyURL()) { recievedResult in
-            switch (expectedResult,recievedResult) {
-            case (.success,.success): break
-                
-            case let (.failure(expectedError as LocalFeedImageDataLoader.SaveError),.failure(receivedError as LocalFeedImageDataLoader.SaveError)):
-                XCTAssertEqual(expectedError, receivedError,file: file,line: line)
-                
-            default:
-                XCTFail("Expected result \(expectedResult), but got \(recievedResult) instead",file: file,line: line)
-            }
-            exp.fulfill()
-        }
         
-        wait(for: [exp], timeout: 1.0)
+        let recievedResult = Result { try  sut.save(anyData(), for: anyURL())}
+        switch (expectedResult,recievedResult) {
+        case (.success,.success): break
+            
+        case let (.failure(expectedError as LocalFeedImageDataLoader.SaveError),.failure(receivedError as LocalFeedImageDataLoader.SaveError)):
+            XCTAssertEqual(expectedError, receivedError,file: file,line: line)
+            
+        default:
+            XCTFail("Expected result \(expectedResult), but got \(recievedResult) instead",file: file,line: line)
+        }
     }
     
-    private func failed() -> LocalFeedImageDataLoader.SaveResult {
+    private func failed() -> Result<Void,Error> {
         .failure(LocalFeedImageDataLoader.SaveError.failed)
     }
 }
