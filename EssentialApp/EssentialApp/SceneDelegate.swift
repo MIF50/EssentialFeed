@@ -16,6 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
+    private lazy var scheduler: AnyScheduler<DispatchQueue.SchedulerTimeType, DispatchQueue.SchedulerOptions> = DispatchQueue(
+        label: "com.mif50.infra.queue",
+        qos: .userInitiated,
+        attributes: .concurrent
+    ).eraseToAnyScheduler()
+    
     private lazy var httpClient: HTTPClient = {
         URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
     }()
@@ -48,10 +54,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             selection: showComments)
     )
     
-    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore) {
+    convenience init(httpClient: HTTPClient, store: FeedStore & FeedImageDataStore,scheduler: AnyScheduler<DispatchQueue.SchedulerTimeType, DispatchQueue.SchedulerOptions>) {
         self.init()
         self.httpClient = httpClient
         self.store = store
+        self.scheduler = scheduler
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -120,74 +127,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         return localImageLoader
             .loadImageDataPublisher(from: url)
-            .fallback(to: { [httpClient] in
+            .fallback(to: { [httpClient,scheduler] in
                 httpClient
                     .getPublisher(url: url)
                     .tryMap(FeedImageDataMapper.map)
                     .caching(to: localImageLoader, using: url)
+                    .subscribe(on: scheduler)
                     .eraseToAnyPublisher()
             })
+            .subscribe(on: scheduler)
             .eraseToAnyPublisher()
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
         localFeedLoader.validateCache { _ in }
-    }
-}
-
-extension Publisher {
-    
-    func logCacheMisses(url: URL,logger: Logger) -> AnyPublisher<Output,Failure> {
-        handleEvents(receiveCompletion: { result in
-            if case .failure = result {
-                logger.trace("Cache miss for url: \(url)")
-            }
-        }).eraseToAnyPublisher()
-    }
-    
-    func logErrors(url: URL,logger: Logger) -> AnyPublisher<Output,Failure> {
-        handleEvents(receiveCompletion: { result in
-            if case let .failure(error) = result {
-                logger.trace("Failed to load url: \(url) with error: \(error)")
-            }
-        }).eraseToAnyPublisher()
-    }
-    
-    func logElaspedTime(url: URL,logger: Logger) -> AnyPublisher<Output,Failure> {
-        var startTime = CACurrentMediaTime()
-
-        return handleEvents(receiveSubscription: { _ in
-            logger.trace("start loading url: \(url)")
-            startTime = CACurrentMediaTime()
-        },receiveCompletion: { _ in
-            let elapsed = CACurrentMediaTime() - startTime
-            logger.trace("finish loading url: \(url) in \(elapsed) seconds")
-        }).eraseToAnyPublisher()
-    }
-}
-
-private class HTTPClientProfilingDecorator: HTTPClient {
-    
-    private let deocratee: HTTPClient
-    private let logger: Logger
-    
-    internal init(deocratee: HTTPClient, logger: Logger) {
-        self.deocratee = deocratee
-        self.logger = logger
-    }
-    
-    func get(from url: URL, completion: @escaping ((HTTPClient.Result) -> Void)) -> HTTPClientTask {
-        logger.trace("start loading url: \(url)")
-        let startTime = CACurrentMediaTime()
-        
-        return deocratee.get(from: url) {  [logger] result in
-            if case let .failure(error) = result {
-                logger.trace("Failed to load url: \(url) with error: \(error)")
-            }
-            
-            let elapsed = CACurrentMediaTime() - startTime
-            logger.trace("finish loading url: \(url) in \(elapsed) seconds")
-            completion(result)
-        }
     }
 }
