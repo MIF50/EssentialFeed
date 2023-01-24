@@ -8,6 +8,7 @@
 import EssentialFeed
 import Foundation
 import Combine
+import os
 
 public extension Paginated {
     init(items: [Item], loadMorePublisher: (() -> AnyPublisher<Self,Error>)?){
