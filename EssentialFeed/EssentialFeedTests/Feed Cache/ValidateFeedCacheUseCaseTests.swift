@@ -20,7 +20,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         let (sut, store) = makeSUT()
         store.completeRetrieval(with: anyNSError())
 
-        sut.validateCache { _ in }
+        try? sut.validateCache()
         
         XCTAssertEqual(store.receivedMessages, [.retrieve,.deleteCachedFeed])
     }
@@ -29,7 +29,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         let (sut, store) = makeSUT()
         store.completeRetrievalWithEmptyCache()
 
-        sut.validateCache { _ in }
+        try? sut.validateCache()
         
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -40,7 +40,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         let nonExpiredTimestamp = fixedCurrentDate.minusFeedCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
-        sut.validateCache { _ in }
+        try? sut.validateCache()
         store.completeRetrieval(with: feed.local, timestamp: nonExpiredTimestamp)
         
         XCTAssertEqual(store.receivedMessages, [.retrieve])
@@ -53,7 +53,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         store.completeRetrieval(with: feed.local, timestamp: expirationTimestamp)
 
-        sut.validateCache { _ in }
+        try? sut.validateCache()
         
         XCTAssertEqual(store.receivedMessages, [.retrieve,.deleteCachedFeed])
     }
@@ -65,7 +65,7 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         store.completeRetrieval(with: feed.local, timestamp: expiredTimestamp)
 
-        sut.validateCache { _ in }
+        try? sut.validateCache()
         
         XCTAssertEqual(store.receivedMessages, [.retrieve,.deleteCachedFeed])
     }
@@ -133,18 +133,6 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         })
     }
     
-    func test_validateCache_doesNotDeleteInvalidCacheAfterSUTInstanceHasBeenDeallocated() {
-        let store = FeedStoreSpy()
-        var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
-        
-        sut?.validateCache { _ in }
-        
-        sut = nil
-        store.completeRetrieval(with: anyNSError())
-        
-        XCTAssertEqual(store.receivedMessages, [.retrieve])
-    }
-    
     // MARK: - Helper
     
     private func makeSUT(
@@ -161,29 +149,23 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
     
     private func expect(
         _ sut: LocalFeedLoader,
-        toCompleteWith expectedResult: LocalFeedLoader.ValidationResult,
+        toCompleteWith expectedResult: Result<Void,Error>,
         when action: (() -> Void),
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
         action()
-
-        let exp = expectation(description: "wait to validate completion")
-        sut.validateCache { receivedResult in
-            switch (expectedResult,receivedResult) {
-            case (.success,.success):
-                break
-                
-            case let (.failure(expectedError as NSError), .failure(receivedError as NSError)):
-                XCTAssertEqual(expectedError, receivedError,file: file,line: line)
-                
-            default:
-                XCTFail("Expected result \(expectedResult), got \(receivedResult) instead", file: file, line: line)
-            }
-            
-            exp.fulfill()
-        }
         
-        wait(for: [exp], timeout: 1.0)
+        let receivedResult = Result { try sut.validateCache() }
+        switch (expectedResult,receivedResult) {
+        case (.success,.success):
+            break
+            
+        case let (.failure(expectedError as NSError), .failure(receivedError as NSError)):
+            XCTAssertEqual(expectedError, receivedError,file: file,line: line)
+            
+        default:
+            XCTFail("Expected result \(expectedResult), got \(receivedResult) instead", file: file, line: line)
+        }
     }
 }

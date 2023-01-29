@@ -199,15 +199,11 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         file: StaticString = #filePath,
         line: UInt = #line
     ) {
-        let exp = expectation(description: "wait to validate completion")
-        loader.validateCache { result in
-            if case let .failure(error) = result {
-                XCTFail("Expected to validate successfully but,got \(error) instead",file: file,line: line)
-            }
-            exp.fulfill()
+        do {
+            try loader.validateCache()
+        } catch {
+            XCTFail("Expected to validate successfully but,got \(error) instead",file: file,line: line)
         }
-        
-        wait(for: [exp], timeout: 1.0)
     }
     
     private func setupEmptyStoreState() {
