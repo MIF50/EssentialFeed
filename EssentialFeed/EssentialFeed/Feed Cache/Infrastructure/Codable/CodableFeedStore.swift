@@ -44,47 +44,43 @@ public final class CodableFeedStore: FeedStore {
         self.storeURL = storeURL
     }
     
-    public func retrieve(completion: @escaping RetrievalCompletion) {
-        queue.async { [storeURL] in
+    public func retrieve() throws -> CachedFeed? {
+        try queue.sync { [storeURL] in
             guard let data = try? Data(contentsOf: storeURL) else {
-                return completion(.success(.none))
+                return .none
             }
             
             do {
                 let decoder = JSONDecoder()
                 let cache = try decoder.decode(Cache.self, from: data)
-                completion(.success(.some(CachedFeed(feed: cache.localFeed, timestamp: cache.timestamp))))
+               return .some(CachedFeed(feed: cache.localFeed, timestamp: cache.timestamp))
             } catch {
-                completion(.failure(error))
+                throw error
             }
         }
     }
     
-    public func insert(_ feed: [LocalFeedImage],timestamp: Date,completion: @escaping InsertionCompletion) {
-        queue.async(flags: .barrier) { [storeURL] in
+    public func insert(_ feed: [LocalFeedImage], timestamp: Date) throws {
+        try queue.sync { [storeURL] in
             do {
                 let encoder = JSONEncoder()
                 let cache = Cache(feed: feed.map(CodableFeedImage.init), timestamp: timestamp)
                 let encoded = try encoder.encode(cache)
                 try encoded.write(to: storeURL)
-                completion(.success(()))
             } catch {
-                completion(.failure(error))
+                throw error
             }
         }
     }
     
-    public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
-        queue.async(flags: .barrier) { [storeURL] in
-            guard FileManager.default.fileExists(atPath: storeURL.path) else {
-                return completion(.success(()))
-            }
-            
+    public func deleteCachedFeed() throws {
+        try queue.sync(flags: .barrier) { [storeURL] in
+            guard FileManager.default.fileExists(atPath: storeURL.path) else { return }
+    
             do {
                 try FileManager.default.removeItem(at: storeURL)
-                completion(.success(()))
             } catch {
-                completion(.failure(error))
+                throw error
             }
         }
     }
