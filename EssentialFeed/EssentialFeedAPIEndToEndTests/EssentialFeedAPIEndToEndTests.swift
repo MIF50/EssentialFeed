@@ -31,26 +31,71 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
         }
     }
     
+    func test_endToEndTestServerGETFeedImageDataResult_matchesFixedTestAccountData() {
+        switch getFeedImageDataResult() {
+        case let .success(data)?:
+            XCTAssertFalse(data.isEmpty, "Expected non-empty image data")
+            
+        case let .failure(error)?:
+            XCTFail("Expected successful image data result, got \(error) instead")
+            
+        default:
+            XCTFail("Expected successful image data result, got no result instead")
+        }
+    }
+    
     // MARK: - Helpers
     
-    private func getFeedResult(file: StaticString = #file,
-                               line: UInt = #line)-> FeedLoader.Result? {
-        let testServerURL = URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
-        let client = URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
-        let loader = RemoteFeedLoader(url: testServerURL, client: client)
-
-        trackForMemoryLeaks(client, file: file, line: line)
-        trackForMemoryLeaks(loader, file: file, line: line)
+    private func getFeedResult(file: StaticString = #filePath,line: UInt = #line) -> Swift.Result<[FeedImage],Error>? {
+        let client = ephemeralClient()
         let exp = expectation(description: "Wait for load completion")
-
-        var receivedResult: FeedLoader.Result?
-        loader.load { result in
-            receivedResult = result
+        
+        var receivedResult: Swift.Result<[FeedImage],Error>?
+        client.get(from: feedTestServerURL) { result in
+            receivedResult = result.flatMap { (data,response) in
+                do {
+                    return .success(try FeedItemsMapper.map(data, from: response))
+                } catch {
+                    return .failure(error)
+                }
+            }
             exp.fulfill()
         }
-
+        
         wait(for: [exp], timeout: 5.0)
         return receivedResult
+    }
+    
+    private func getFeedImageDataResult(file: StaticString = #filePath, line: UInt = #line) -> Result<Data,Error>? {
+        let url = feedTestServerURL.appendingPathComponent("/73A7F70C-75DA-4C2E-B5A3-EED40DC53AA6/image")
+        let client = ephemeralClient()
+        
+        let exp = expectation(description: "Wait for load completion")
+        
+        var receivedResult: Result<Data,Error>?
+        _ = client.get(from: url) { result in
+            receivedResult = result.flatMap({ data,response in
+                do {
+                    return .success(try FeedImageDataMapper.map(data, from: response))
+                } catch {
+                    return .failure(error)
+                }
+            })
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 5.0)
+        
+        return receivedResult
+    }
+    
+    private func ephemeralClient(file: StaticString = #filePath, line: UInt = #line) -> HTTPClient {
+        let client = URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
+        trackForMemoryLeaks(client, file: file, line: line)
+        return client
+    }
+    
+    private var feedTestServerURL: URL {
+        URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
     }
     
     private func expectedImage(at index: Int) -> FeedImage {
